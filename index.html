@@ -9,19 +9,20 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg-start: #1a1a2e;
-      --bg-mid:   #16213e;
-      --bg-end:   #0f3460;
-      --card:     rgba(255,255,255,0.08);
+      --bg-start:    #1a1a2e;
+      --bg-mid:      #16213e;
+      --bg-end:      #0f3460;
+      --card:        rgba(255,255,255,0.08);
       --card-border: rgba(255,255,255,0.18);
-      --primary:  #f7971e;
-      --secondary:#e91e8c;
-      --success:  #00e676;
-      --error:    #ff5252;
-      --text:     #ffffff;
-      --muted:    rgba(255,255,255,0.65);
-      --radius:   18px;
-      --shadow:   0 8px 32px rgba(0,0,0,0.35);
+      --primary:     #f7971e;
+      --secondary:   #e91e8c;
+      --success:     #00e676;
+      --error:       #ff5252;
+      --warn:        #ffeb3b;
+      --text:        #ffffff;
+      --muted:       rgba(255,255,255,0.65);
+      --radius:      18px;
+      --shadow:      0 8px 32px rgba(0,0,0,0.35);
     }
 
     body {
@@ -36,17 +37,10 @@
       overflow-x: hidden;
     }
 
-    /* ─── Floating stars background ─── */
-    .stars {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 0;
-    }
+    /* ─── Starfield ─── */
+    .stars { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
     .star {
       position: absolute;
-      width: 4px; height: 4px;
       border-radius: 50%;
       background: #fff;
       opacity: 0;
@@ -57,15 +51,10 @@
       50%      { opacity: 0.8; transform: scale(1.4); }
     }
 
-    /* ─── Main container ─── */
-    .app {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 680px;
-    }
+    /* ─── App container ─── */
+    .app { position: relative; z-index: 1; width: 100%; max-width: 700px; }
 
-    /* ─── Screen utility ─── */
+    /* ─── Screens ─── */
     .screen { display: none; }
     .screen.active { display: block; }
 
@@ -81,13 +70,13 @@
       animation: slideIn 0.45s cubic-bezier(.22,1,.36,1);
     }
     @keyframes slideIn {
-      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      from { opacity: 0; transform: translateY(28px) scale(0.97); }
       to   { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* ─── Welcome screen ─── */
-    .welcome-emoji {
-      font-size: 5rem;
+    /* ─── Shared heading styles ─── */
+    .screen-emoji {
+      font-size: 4.5rem;
       text-align: center;
       display: block;
       animation: bounce 1.8s infinite;
@@ -97,101 +86,261 @@
       0%,100% { transform: translateY(0); }
       50%      { transform: translateY(-12px); }
     }
-    .welcome-title {
+    .screen-title {
       text-align: center;
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 900;
-      margin: 16px 0 8px;
+      margin: 14px 0 8px;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .welcome-sub {
+    .screen-sub {
       text-align: center;
       color: var(--muted);
-      font-size: 1.05rem;
-      margin-bottom: 28px;
+      font-size: 1rem;
+      margin-bottom: 24px;
       line-height: 1.6;
     }
+
+    /* ─── Info grid (welcome) ─── */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
     .info-box {
       background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.12);
       border-radius: 12px;
-      padding: 14px 12px;
+      padding: 14px 10px;
       text-align: center;
     }
-    .info-box .icon { font-size: 1.7rem; display: block; margin-bottom: 4px; }
-    .info-box .label { font-size: 0.82rem; color: var(--muted); }
-    .info-box .value { font-size: 1rem; font-weight: 700; }
+    .info-box .i-icon  { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    .info-box .i-label { font-size: 0.78rem; color: var(--muted); }
+    .info-box .i-value { font-size: 0.95rem; font-weight: 700; }
 
     /* ─── Buttons ─── */
     .btn {
       display: block;
       width: 100%;
-      padding: 16px 20px;
+      padding: 15px 20px;
       border: none;
       border-radius: 50px;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
-      letter-spacing: 0.5px;
       font-family: inherit;
+      letter-spacing: 0.3px;
     }
     .btn:active { transform: scale(0.97); }
     .btn-primary {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: #fff;
-      box-shadow: 0 4px 20px rgba(233,30,140,0.45);
+      box-shadow: 0 4px 20px rgba(233,30,140,0.4);
     }
-    .btn-primary:hover { filter: brightness(1.12); box-shadow: 0 6px 28px rgba(233,30,140,0.6); }
+    .btn-primary:hover { filter: brightness(1.1); box-shadow: 0 6px 28px rgba(233,30,140,0.55); }
+    .btn-purple {
+      background: linear-gradient(135deg, #7b2ff7, #2196f3);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(123,47,247,0.35);
+    }
+    .btn-purple:hover { filter: brightness(1.1); }
     .btn-outline {
-      background: rgba(255,255,255,0.08);
-      border: 2px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.07);
+      border: 2px solid rgba(255,255,255,0.22);
       color: #fff;
       margin-top: 10px;
     }
-    .btn-outline:hover { background: rgba(255,255,255,0.14); }
-
-    /* ─── Progress bar ─── */
-    .progress-wrapper {
-      margin-bottom: 22px;
-    }
-    .progress-meta {
-      display: flex;
-      justify-content: space-between;
+    .btn-outline:hover { background: rgba(255,255,255,0.13); }
+    .btn-sm {
+      display: inline-flex;
       align-items: center;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
+      justify-content: center;
+      width: auto;
+      padding: 7px 16px;
+      font-size: 0.88rem;
+      border-radius: 50px;
     }
-    .q-counter { font-weight: 700; }
+    .btn-add {
+      background: rgba(0,230,118,0.12);
+      border: 1.5px dashed rgba(0,230,118,0.45);
+      color: var(--success);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+      transition: background 0.2s;
+      margin-bottom: 10px;
+    }
+    .btn-add:hover { background: rgba(0,230,118,0.2); }
+
+    /* ─── Players setup ─── */
+    .player-inputs { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .player-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      padding: 10px 14px;
+      animation: slideIn 0.25s ease;
+    }
+    .player-avatar {
+      font-size: 1.5rem;
+      width: 36px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .player-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      outline: none;
+      direction: rtl;
+    }
+    .player-input::placeholder { color: var(--muted); font-weight: 400; }
+    .btn-remove {
+      background: rgba(255,82,82,0.15);
+      border: none;
+      color: #ff8a80;
+      border-radius: 8px;
+      padding: 5px 10px;
+      cursor: pointer;
+      font-size: 1rem;
+      line-height: 1;
+      transition: background 0.2s;
+    }
+    .btn-remove:hover { background: rgba(255,82,82,0.3); }
+
+    /* ─── Handoff screen ─── */
+    .handoff-name {
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-align: center;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 12px 0 6px;
+    }
+    .handoff-progress {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .hp-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      transition: background 0.3s;
+    }
+    .hp-dot.done  { background: var(--success); border-color: var(--success); }
+    .hp-dot.curr  { background: var(--primary); border-color: var(--primary); }
+
+    /* ─── Quiz: top header ─── */
+    .quiz-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+    .player-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(135deg, rgba(123,47,247,0.35), rgba(33,150,243,0.35));
+      border: 1px solid rgba(123,47,247,0.5);
+      border-radius: 50px;
+      padding: 5px 14px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 160px;
+      text-overflow: ellipsis;
+    }
+    .q-counter   { font-weight: 700; font-size: 0.9rem; }
     .score-badge {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
-      padding: 3px 14px;
+      padding: 4px 14px;
       border-radius: 50px;
       font-weight: 800;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
+      white-space: nowrap;
     }
+
+    /* ─── Progress bar ─── */
     .progress-track {
-      height: 10px;
-      background: rgba(255,255,255,0.12);
+      height: 8px;
+      background: rgba(255,255,255,0.1);
       border-radius: 50px;
       overflow: hidden;
+      margin-bottom: 10px;
     }
     .progress-fill {
       height: 100%;
       border-radius: 50px;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
       transition: width 0.5s cubic-bezier(.22,1,.36,1);
-      box-shadow: 0 0 12px rgba(233,30,140,0.5);
+      box-shadow: 0 0 10px rgba(233,30,140,0.4);
     }
+
+    /* ─── Timer ─── */
+    .timer-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .timer-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .timer-track {
+      position: relative;
+      flex: 1;
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+    .timer-fill {
+      position: absolute;
+      top: 0; right: 0;        /* anchored to right (RTL start) */
+      height: 100%;
+      border-radius: 50px;
+      background: var(--success);
+      transition: width 0.9s linear, background 0.5s;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .timer-num {
+      font-size: 1rem;
+      font-weight: 900;
+      min-width: 26px;
+      text-align: center;
+      flex-shrink: 0;
+      transition: color 0.4s;
+    }
+    .timer-num.warn   { color: var(--warn); }
+    .timer-num.danger { color: var(--error); }
 
     /* ─── Category badge ─── */
     .category-badge {
@@ -204,86 +353,78 @@
       padding: 4px 14px;
       font-size: 0.8rem;
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     /* ─── Question text ─── */
     .question-text {
-      font-size: 1.35rem;
+      font-size: 1.28rem;
       font-weight: 700;
       line-height: 1.55;
-      margin-bottom: 26px;
-      color: #fff;
+      margin-bottom: 22px;
     }
 
-    /* ─── Answer options ─── */
+    /* ─── Options ─── */
     .options-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 22px;
-    }
-    @media (max-width: 480px) {
-      .options-grid { grid-template-columns: 1fr; }
-      .card { padding: 26px 20px; }
-      .welcome-title { font-size: 1.7rem; }
+      gap: 10px;
+      margin-bottom: 18px;
     }
     .option-btn {
       background: rgba(255,255,255,0.07);
-      border: 2px solid rgba(255,255,255,0.15);
-      border-radius: 14px;
-      padding: 16px 14px;
+      border: 2px solid rgba(255,255,255,0.14);
+      border-radius: 13px;
+      padding: 14px 12px;
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.97rem;
       font-weight: 600;
       cursor: pointer;
       text-align: right;
-      transition: background 0.18s, border-color 0.18s, transform 0.15s;
+      transition: background 0.16s, border-color 0.16s, transform 0.14s;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 9px;
       font-family: inherit;
       line-height: 1.4;
     }
     .option-btn:hover:not(:disabled) {
       background: rgba(255,255,255,0.14);
-      border-color: rgba(255,255,255,0.35);
+      border-color: rgba(255,255,255,0.32);
       transform: translateY(-2px);
     }
     .option-btn:disabled { cursor: default; }
     .option-btn.correct {
       background: rgba(0,230,118,0.18);
       border-color: var(--success);
-      box-shadow: 0 0 18px rgba(0,230,118,0.35);
+      box-shadow: 0 0 16px rgba(0,230,118,0.3);
       animation: popIn 0.35s ease;
     }
     .option-btn.wrong {
       background: rgba(255,82,82,0.18);
       border-color: var(--error);
-      box-shadow: 0 0 18px rgba(255,82,82,0.25);
       animation: shake 0.4s ease;
     }
     .option-btn.reveal {
-      background: rgba(0,230,118,0.10);
-      border-color: rgba(0,230,118,0.45);
+      background: rgba(0,230,118,0.1);
+      border-color: rgba(0,230,118,0.4);
     }
     @keyframes popIn {
       0%   { transform: scale(1); }
-      40%  { transform: scale(1.07); }
+      40%  { transform: scale(1.06); }
       100% { transform: scale(1); }
     }
     @keyframes shake {
       0%,100% { transform: translateX(0); }
-      20%      { transform: translateX(-6px); }
-      60%      { transform: translateX(6px); }
+      20%     { transform: translateX(-6px); }
+      60%     { transform: translateX(6px); }
     }
-
     .option-letter {
-      width: 30px; height: 30px;
+      width: 28px; height: 28px;
       border-radius: 50%;
       background: rgba(255,255,255,0.12);
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       font-weight: 800;
       flex-shrink: 0;
       transition: background 0.18s;
@@ -292,116 +433,125 @@
     .option-btn.wrong   .option-letter { background: var(--error);   color: #fff; }
     .option-btn.reveal  .option-letter { background: rgba(0,230,118,0.5); }
 
-    /* ─── Feedback banner ─── */
+    /* ─── Feedback ─── */
     .feedback {
       display: none;
       border-radius: 12px;
-      padding: 14px 18px;
+      padding: 12px 16px;
       font-weight: 700;
-      font-size: 1.0rem;
-      margin-bottom: 18px;
+      font-size: 0.95rem;
+      margin-bottom: 16px;
       animation: slideIn 0.3s ease;
+      align-items: flex-start;
+      gap: 10px;
     }
-    .feedback.show { display: flex; align-items: center; gap: 10px; }
+    .feedback.show { display: flex; }
     .feedback.correct-fb {
-      background: rgba(0,230,118,0.15);
-      border: 1px solid rgba(0,230,118,0.4);
+      background: rgba(0,230,118,0.14);
+      border: 1px solid rgba(0,230,118,0.38);
       color: var(--success);
     }
     .feedback.wrong-fb {
-      background: rgba(255,82,82,0.15);
-      border: 1px solid rgba(255,82,82,0.35);
+      background: rgba(255,82,82,0.14);
+      border: 1px solid rgba(255,82,82,0.32);
       color: #ff8a80;
     }
-    .feedback-icon { font-size: 1.4rem; }
+    .feedback-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
 
     /* ─── Next button ─── */
-    .btn-next {
-      display: none;
-      background: linear-gradient(135deg, #7b2ff7, #2196f3);
-      color: #fff;
-      box-shadow: 0 4px 20px rgba(123,47,247,0.4);
-    }
+    .btn-next { display: none; }
     .btn-next.show { display: block; }
-    .btn-next:hover { filter: brightness(1.1); }
 
-    /* ─── Result screen ─── */
-    .result-emoji-big {
-      font-size: 5.5rem;
-      text-align: center;
-      display: block;
-      animation: pop 0.6s cubic-bezier(.22,1,.36,1);
-    }
-    @keyframes pop {
-      0%   { transform: scale(0.3) rotate(-20deg); opacity: 0; }
-      70%  { transform: scale(1.15) rotate(4deg); opacity: 1; }
-      100% { transform: scale(1) rotate(0deg); }
-    }
-    .result-title {
-      text-align: center;
-      font-size: 1.9rem;
+    /* ─── Player result screen ─── */
+    .pr-name {
+      font-size: 1.8rem;
       font-weight: 900;
-      margin: 14px 0 6px;
-    }
-    .result-sub {
       text-align: center;
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 24px;
-      line-height: 1.6;
+      margin: 10px 0 4px;
     }
 
     /* ─── Score ring ─── */
-    .score-ring-wrap {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-    .score-ring {
-      position: relative;
-      width: 140px; height: 140px;
-    }
+    .score-ring-wrap { display: flex; justify-content: center; margin-bottom: 22px; }
+    .score-ring { position: relative; width: 130px; height: 130px; }
     .score-ring svg { transform: rotate(-90deg); }
-    .score-ring circle { fill: none; stroke-width: 12; }
-    .score-ring .track  { stroke: rgba(255,255,255,0.1); }
-    .score-ring .fill   {
+    .score-ring circle { fill: none; stroke-width: 11; }
+    .score-ring .track { stroke: rgba(255,255,255,0.1); }
+    .score-ring .fill  {
       stroke: url(#scoreGrad);
       stroke-linecap: round;
       transition: stroke-dashoffset 1s cubic-bezier(.22,1,.36,1);
     }
     .score-ring-label {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
     }
-    .score-ring-num  { font-size: 2rem; font-weight: 900; }
-    .score-ring-text { font-size: 0.75rem; color: var(--muted); }
+    .score-ring-num  { font-size: 1.8rem; font-weight: 900; }
+    .score-ring-sub  { font-size: 0.7rem; color: var(--muted); }
 
     /* ─── Stats row ─── */
     .stats-row {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
     .stat-box {
       background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.11);
       border-radius: 12px;
       padding: 12px 8px;
       text-align: center;
     }
-    .stat-box .s-icon  { font-size: 1.5rem; display: block; }
-    .stat-box .s-value { font-size: 1.3rem; font-weight: 800; display: block; margin: 2px 0; }
-    .stat-box .s-label { font-size: 0.75rem; color: var(--muted); }
+    .stat-box .s-icon  { font-size: 1.4rem; display: block; }
+    .stat-box .s-value { font-size: 1.2rem; font-weight: 800; display: block; margin: 3px 0; }
+    .stat-box .s-label { font-size: 0.72rem; color: var(--muted); }
+
+    /* ─── Leaderboard ─── */
+    .lb-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .lb-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 14px 16px;
+      animation: slideIn 0.4s ease both;
+    }
+    .lb-row.gold   { border-color: #ffd700; background: rgba(255,215,0,0.1); }
+    .lb-row.silver { border-color: #c0c0c0; background: rgba(192,192,192,0.08); }
+    .lb-row.bronze { border-color: #cd7f32; background: rgba(205,127,50,0.08); }
+    .lb-rank  { font-size: 1.8rem; width: 36px; text-align: center; flex-shrink: 0; }
+    .lb-info  { flex: 1; }
+    .lb-name  { font-size: 1.05rem; font-weight: 800; }
+    .lb-detail { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .lb-score {
+      font-size: 1.3rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .lb-bar-wrap {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+    .lb-bar {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 1s cubic-bezier(.22,1,.36,1);
+    }
 
     /* ─── Confetti ─── */
     .confetti-piece {
       position: fixed;
-      width: 10px; height: 14px;
       border-radius: 3px;
       top: -20px;
       animation: confettiFall var(--dur,3s) var(--delay,0s) ease-in forwards;
@@ -412,62 +562,106 @@
       0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
       100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
     }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 480px) {
+      .card { padding: 24px 18px; }
+      .options-grid { grid-template-columns: 1fr; }
+      .screen-title, .handoff-name { font-size: 1.65rem; }
+      .quiz-header { flex-wrap: wrap; }
+    }
   </style>
 </head>
 <body>
 
-<!-- Starfield background -->
 <div class="stars" id="stars"></div>
 
 <div class="app">
 
-  <!-- ══════════════ WELCOME SCREEN ══════════════ -->
+  <!-- ══════ WELCOME ══════ -->
   <div class="screen active" id="screen-welcome">
     <div class="card">
-      <span class="welcome-emoji">🌟</span>
-      <h1 class="welcome-title">חידון ידע כללי!</h1>
-      <p class="welcome-sub">
-        ברוכים הבאים לחידון המרתק!<br>
-        בדוק את הידע שלך בהיסטוריה, טבע, מדע וגאוגרפיה 🌍🔬🦁
+      <span class="screen-emoji">🌟</span>
+      <h1 class="screen-title">חידון ידע כללי!</h1>
+      <p class="screen-sub">
+        היסטוריה, טבע, מדע, גאוגרפיה וחגים יהודיים<br>
+        🌍🔬🦁✡️ – לגיל 9 עד 16
       </p>
       <div class="info-grid">
         <div class="info-box">
-          <span class="icon">❓</span>
-          <span class="label">מספר שאלות</span>
-          <span class="value">10 שאלות</span>
+          <span class="i-icon">❓</span>
+          <span class="i-label">מספר שאלות</span>
+          <span class="i-value">20 שאלות</span>
         </div>
         <div class="info-box">
-          <span class="icon">🏆</span>
-          <span class="label">ניקוד מרבי</span>
-          <span class="value">100 נקודות</span>
+          <span class="i-icon">⏱️</span>
+          <span class="i-label">זמן לשאלה</span>
+          <span class="i-value">20 שניות</span>
         </div>
         <div class="info-box">
-          <span class="icon">🎯</span>
-          <span class="label">תחומים</span>
-          <span class="value">4 קטגוריות</span>
+          <span class="i-icon">👥</span>
+          <span class="i-label">משתתפים</span>
+          <span class="i-value">עד 5 שחקנים</span>
         </div>
         <div class="info-box">
-          <span class="icon">⚡</span>
-          <span class="label">רמת קושי</span>
-          <span class="value">לגיל 9–16</span>
+          <span class="i-icon">🏆</span>
+          <span class="i-label">ניקוד מרבי</span>
+          <span class="i-value">200 נקודות</span>
         </div>
       </div>
-      <button class="btn btn-primary" onclick="startQuiz()">🚀 בוא נתחיל!</button>
+      <button class="btn btn-primary" onclick="goToPlayers()">👥 הכנס שחקנים</button>
     </div>
   </div>
 
-  <!-- ══════════════ QUIZ SCREEN ══════════════ -->
+  <!-- ══════ PLAYERS SETUP ══════ -->
+  <div class="screen" id="screen-players">
+    <div class="card">
+      <span class="screen-emoji" style="font-size:3.5rem">👥</span>
+      <h2 class="screen-title">מי משחק היום?</h2>
+      <p class="screen-sub">הכנס שמות (לפחות שחקן אחד, עד 5)</p>
+      <div class="player-inputs" id="player-inputs"></div>
+      <button class="btn-add" id="btn-add-player" onclick="addPlayerInput()">＋ הוסף שחקן</button>
+      <button class="btn btn-primary" onclick="beginGame()">🚀 בואו נשחק!</button>
+      <button class="btn btn-outline" onclick="showScreen('screen-welcome')">← חזרה</button>
+    </div>
+  </div>
+
+  <!-- ══════ HANDOFF ══════ -->
+  <div class="screen" id="screen-handoff">
+    <div class="card" style="text-align:center">
+      <div id="handoff-emoji" style="font-size:4rem;margin-bottom:8px">🎮</div>
+      <p style="color:var(--muted);font-size:0.9rem;margin-bottom:4px">עכשיו תורו של</p>
+      <div class="handoff-name" id="handoff-name">שחקן</div>
+      <div class="handoff-progress" id="handoff-progress"></div>
+      <p style="color:var(--muted);font-size:0.95rem;margin-bottom:26px" id="handoff-hint">
+        ענה על 20 שאלות תוך 20 שניות כל אחת 🕐
+      </p>
+      <button class="btn btn-primary" onclick="startPlayerQuiz()">▶️ התחל!</button>
+    </div>
+  </div>
+
+  <!-- ══════ QUIZ ══════ -->
   <div class="screen" id="screen-quiz">
     <div class="card">
+      <!-- Header row -->
+      <div class="quiz-header">
+        <span class="player-chip" id="quiz-player-chip">🎮 שחקן</span>
+        <span class="q-counter"   id="q-counter">שאלה 1 מתוך 20</span>
+        <span class="score-badge" id="score-display">⭐ 0</span>
+      </div>
+
       <!-- Progress -->
-      <div class="progress-wrapper">
-        <div class="progress-meta">
-          <span class="q-counter" id="q-counter">שאלה 1 מתוך 10</span>
-          <span class="score-badge" id="score-display">⭐ 0 נקודות</span>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+      </div>
+
+      <!-- Timer -->
+      <div class="timer-row">
+        <span class="timer-label">⏱️ זמן:</span>
+        <div class="timer-track">
+          <div class="timer-fill" id="timer-fill" style="width:100%"></div>
         </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
-        </div>
+        <span class="timer-num" id="timer-num">20</span>
       </div>
 
       <!-- Category -->
@@ -485,328 +679,676 @@
         <span id="feedback-text"></span>
       </div>
 
-      <!-- Next button -->
-      <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">
-        הבא ➜
-      </button>
+      <!-- Next -->
+      <button class="btn btn-purple btn-next" id="btn-next" onclick="nextQuestion()">הבא ➜</button>
     </div>
   </div>
 
-  <!-- ══════════════ RESULT SCREEN ══════════════ -->
-  <div class="screen" id="screen-result">
+  <!-- ══════ PLAYER RESULT ══════ -->
+  <div class="screen" id="screen-player-result">
     <div class="card">
-      <span class="result-emoji-big" id="result-emoji">🏆</span>
-      <h2 class="result-title" id="result-title">כל הכבוד!</h2>
-      <p class="result-sub" id="result-sub">תוצאה מצוינת!</p>
-
-      <!-- Score ring -->
+      <div id="pr-emoji"  style="font-size:4.5rem;text-align:center;display:block;animation:pop 0.55s cubic-bezier(.22,1,.36,1)">🎉</div>
+      <div class="pr-name" id="pr-name">שחקן</div>
+      <p  class="screen-sub" id="pr-sub">כל הכבוד!</p>
       <div class="score-ring-wrap">
         <div class="score-ring">
-          <svg width="140" height="140" viewBox="0 0 140 140">
+          <svg width="130" height="130" viewBox="0 0 130 130">
             <defs>
               <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%"   stop-color="#f7971e"/>
                 <stop offset="100%" stop-color="#e91e8c"/>
               </linearGradient>
             </defs>
-            <circle class="track" cx="70" cy="70" r="58"/>
-            <circle class="fill"  cx="70" cy="70" r="58"
-                    id="ring-fill"
-                    stroke-dasharray="364.42"
-                    stroke-dashoffset="364.42"/>
+            <circle class="track" cx="65" cy="65" r="54"/>
+            <circle class="fill"  cx="65" cy="65" r="54"
+                    id="pr-ring-fill"
+                    stroke-dasharray="339.3"
+                    stroke-dashoffset="339.3"/>
           </svg>
           <div class="score-ring-label">
-            <span class="score-ring-num" id="ring-num">0</span>
-            <span class="score-ring-text">מתוך 100</span>
+            <span class="score-ring-num" id="pr-ring-num">0</span>
+            <span class="score-ring-sub">מתוך 200</span>
           </div>
         </div>
       </div>
-
-      <!-- Stats -->
       <div class="stats-row">
         <div class="stat-box">
           <span class="s-icon">✅</span>
-          <span class="s-value" id="stat-correct">0</span>
-          <span class="s-label">תשובות נכונות</span>
+          <span class="s-value" id="pr-correct">0</span>
+          <span class="s-label">נכון</span>
         </div>
         <div class="stat-box">
           <span class="s-icon">❌</span>
-          <span class="s-value" id="stat-wrong">0</span>
-          <span class="s-label">תשובות שגויות</span>
+          <span class="s-value" id="pr-wrong">0</span>
+          <span class="s-label">שגוי</span>
         </div>
         <div class="stat-box">
-          <span class="s-icon">🎯</span>
-          <span class="s-value" id="stat-pct">0%</span>
-          <span class="s-label">אחוז הצלחה</span>
+          <span class="s-icon">⏰</span>
+          <span class="s-value" id="pr-timeouts">0</span>
+          <span class="s-label">פג זמן</span>
         </div>
       </div>
+      <button class="btn btn-primary" id="btn-pr-next" onclick="proceedToNext()">הבא ➜</button>
+    </div>
+  </div>
 
-      <button class="btn btn-primary" onclick="restartQuiz()">🔄 שחק שוב!</button>
-      <button class="btn btn-outline" onclick="goHome()">🏠 מסך הפתיחה</button>
+  <!-- ══════ LEADERBOARD ══════ -->
+  <div class="screen" id="screen-leaderboard">
+    <div class="card">
+      <span style="font-size:4rem;text-align:center;display:block;animation:pop 0.6s ease">🏆</span>
+      <h2 class="screen-title">לוח התוצאות</h2>
+      <p class="screen-sub" id="lb-sub">ראו מי ניצח!</p>
+      <div class="lb-list" id="lb-list"></div>
+      <button class="btn btn-primary" onclick="playAgain()">🔄 שחקו שוב!</button>
+      <button class="btn btn-outline"  onclick="goToPlayers()">👥 שנה שחקנים</button>
+      <button class="btn btn-outline"  onclick="showScreen('screen-welcome')">🏠 מסך פתיחה</button>
     </div>
   </div>
 
 </div><!-- /.app -->
 
+<style>
+  @keyframes pop {
+    0%   { transform: scale(0.3) rotate(-18deg); opacity: 0; }
+    70%  { transform: scale(1.14) rotate(4deg);  opacity: 1; }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+</style>
+
 <script>
-  /* ─── Starfield ─── */
-  (function () {
-    const container = document.getElementById('stars');
-    for (let i = 0; i < 80; i++) {
-      const s = document.createElement('div');
-      s.className = 'star';
-      s.style.cssText = `
-        left: ${Math.random()*100}%;
-        top:  ${Math.random()*100}%;
-        --dur:   ${2 + Math.random()*5}s;
-        --delay: ${Math.random()*6}s;
-        width:  ${1 + Math.random()*3}px;
-        height: ${1 + Math.random()*3}px;
-      `;
-      container.appendChild(s);
+/* ═══════════════════════════════════════
+   STARFIELD
+═══════════════════════════════════════ */
+(function () {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;
+      --dur:${2+Math.random()*5}s;--delay:${Math.random()*6}s;
+      width:${1+Math.random()*3}px;height:${1+Math.random()*3}px;`;
+    c.appendChild(s);
+  }
+})();
+
+/* ═══════════════════════════════════════
+   QUESTIONS (20 total)
+═══════════════════════════════════════ */
+const questions = [
+  // ── GENERAL KNOWLEDGE (10) ──────────────────────────
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהי בירת צרפת?',
+    options: ['לונדון', 'ברלין', 'פריז', 'מדריד'],
+    correct: 2,
+    explanation: 'פריז היא בירת צרפת – עיר האור המפורסמת עם מגדל אייפל! 🗼'
+  },
+  {
+    category: '🦁 טבע',
+    text: 'איזו חיה היא היונק הגדול ביותר בעולם?',
+    options: ['פיל אפריקאי', 'לווייתן כחול', 'כריש לבן', 'קרנף'],
+    correct: 1,
+    explanation: 'לווייתן הכחול הוא החיה הגדולה ביותר שחיה אי פעם על פני כדור הארץ! 🐋'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'כמה פלנטות יש במערכת השמש שלנו?',
+    options: ['7', '8', '9', '10'],
+    correct: 1,
+    explanation: 'יש 8 פלנטות: כוכב חמה, נוגה, כדור הארץ, מאדים, צדק, שבתאי, אורנוס ונפטון. 🪐'
+  },
+  {
+    category: '📜 היסטוריה',
+    text: 'מי בנה את הפירמידות בגיזה?',
+    options: ['הרומאים', 'היוונים', 'המצרים הקדמונים', 'הפרסים'],
+    correct: 2,
+    explanation: 'הפירמידות בגיזה נבנו על ידי המצרים הקדמונים לפני כ-4,500 שנה! 🏛️'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'מה גורם לצבע הכחול של השמיים?',
+    options: ['השתקפות הים', 'פיזור אור השמש', 'שכבת האוזון', 'ענני גז'],
+    correct: 1,
+    explanation: 'אטמוספירת הארץ מפזרת אור כחול יותר מכל צבע אחר – ולכן השמיים נראים כחולים! ☀️'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהי היבשת הגדולה ביותר בעולם?',
+    options: ['אפריקה', 'אמריקה הצפונית', 'אירופה', 'אסיה'],
+    correct: 3,
+    explanation: 'אסיה היא היבשת הגדולה ביותר, המכסה כ-30% משטח כדור הארץ! 🌏'
+  },
+  {
+    category: '🦁 טבע',
+    text: 'כמה לבבות יש לתמנון?',
+    options: ['אחד', 'שניים', 'שלושה', 'ארבעה'],
+    correct: 2,
+    explanation: 'לתמנון שלושה לבבות: שניים שולחים דם לזימים ואחד לשאר הגוף! 🐙'
+  },
+  {
+    category: '📜 היסטוריה',
+    text: 'באיזו שנה הוכרזה מדינת ישראל?',
+    options: ['1945', '1947', '1948', '1950'],
+    correct: 2,
+    explanation: 'מדינת ישראל הוכרזה ב-14 במאי 1948 על ידי דוד בן-גוריון! 🇮🇱'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'מאיזה חומר עשוי היהלום?',
+    options: ['סיליקון', 'ברזל', 'פחמן', 'זכוכית'],
+    correct: 2,
+    explanation: 'יהלום הוא הצורה הקשה ביותר של פחמן טהור – האבן הקשה ביותר בטבע! 💎'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהו הנהר הארוך ביותר בעולם?',
+    options: ['נהר האמזונס', 'נהר הנילוס', 'נהר המיסיסיפי', 'נהר האנגצה'],
+    correct: 1,
+    explanation: 'נהר הנילוס באפריקה הוא הנהר הארוך ביותר בעולם, כ-6,650 ק"מ! 🌊'
+  },
+
+  // ── JEWISH HOLIDAYS (10) ─────────────────────────────
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'באיזה חודש עברי חל ראש השנה?',
+    options: ['ניסן', 'תשרי', 'אדר', 'שבט'],
+    correct: 1,
+    explanation: 'ראש השנה חל בא׳ בתשרי – ראשון לחודשי השנה העברית! 🍎🍯'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'מה נהוג לעשות ביום כיפור?',
+    options: ['לאכול סעודה גדולה', 'לצום ולהתפלל', 'להדליק נרות חנוכיה', 'לקרוא מגילה'],
+    correct: 1,
+    explanation: 'ביום כיפור צמים 25 שעות ומתפללים – זה יום הכפרה הקדוש ביותר! 🕍'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'כמה נרות מדליקים בחנוכיה בלילה השמיני (כולל השמש)?',
+    options: ['7', '8', '9', '10'],
+    correct: 2,
+    explanation: 'בלילה השמיני מדליקים 8 נרות + 1 שמש = 9 נרות בסך הכל! 🕎'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'איזה ספר קוראים בבית הכנסת בחג הפורים?',
+    options: ['מגילת רות', 'מגילת אסתר', 'מגילת איכה', 'מגילת קהלת'],
+    correct: 1,
+    explanation: 'בפורים קוראים את מגילת אסתר – הסיפור על הצלת יהודי פרס! 📜'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'כמה ימים נמשך חג הפסח בארץ ישראל?',
+    options: ['5 ימים', '6 ימים', '7 ימים', '8 ימים'],
+    correct: 2,
+    explanation: 'בארץ ישראל חג הפסח נמשך 7 ימים (בחוץ לארץ – 8 ימים)! 🫓'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'מה מציין חג השבועות?',
+    options: ['יציאת מצרים', 'מתן תורה בהר סיני', 'כניסה לארץ ישראל', 'בניין המקדש'],
+    correct: 1,
+    explanation: 'חג השבועות מציין את מתן התורה לעם ישראל בהר סיני! 📖'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'מה הם ארבעת המינים שלוקחים בחג הסוכות?',
+    options: [
+      'אתרוג, לולב, הדס וערבה',
+      'תפוח, תמר, ענב ורימון',
+      'חיטה, שעורה, גפן ותאנה',
+      'זית, שמן, חלב ודבש'
+    ],
+    correct: 0,
+    explanation: 'ארבעת המינים: אתרוג, לולב, שלושה הדסים ושתי ערבות – נלקחים בסוכות! 🌿'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'כמה ימים סופרים בספירת העומר?',
+    options: ['33 ימים', '40 ימים', '49 ימים', '50 ימים'],
+    correct: 2,
+    explanation: 'סופרים 49 ימים (שבעה שבועות) בין פסח לשבועות! 🌾'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'מה אירע בתשעה באב?',
+    options: ['יציאת מצרים', 'חורבן בית המקדש', 'מתן תורה', 'עלייה לארץ'],
+    correct: 1,
+    explanation: 'בתשעה באב נחרב בית המקדש הראשון והשני – זה יום צום ואבלות! 😢'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'מה חוגגים בשמחת תורה?',
+    options: [
+      'תחילת לימוד התורה',
+      'סיום קריאת כל התורה ותחילתה מחדש',
+      'קבלת עשרת הדיברות',
+      'הדלקת נרות שבת'
+    ],
+    correct: 1,
+    explanation: 'בשמחת תורה מסיימים לקרוא את כל התורה ומתחילים מיד מבראשית! 📖🎉'
+  }
+];
+
+/* ═══════════════════════════════════════
+   CONSTANTS & STATE
+═══════════════════════════════════════ */
+const TIMER_SECONDS = 20;
+const MAX_SCORE     = questions.length * 10; // 200
+const LETTERS       = ['א', 'ב', 'ג', 'ד'];
+const PLAYER_EMOJIS = ['🦁', '🐯', '🦊', '🐻', '🐼'];
+
+let players         = [];   // [{name, score, correct, wrong, timeouts}]
+let currentPlayerIdx = 0;
+let currentQ        = 0;
+let answered        = false;
+let timerInterval   = null;
+let timeLeft        = TIMER_SECONDS;
+
+/* ═══════════════════════════════════════
+   SCREEN MANAGEMENT
+═══════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  // Scroll to top of page
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ═══════════════════════════════════════
+   PLAYERS SETUP
+═══════════════════════════════════════ */
+function goToPlayers() {
+  showScreen('screen-players');
+  // Always ensure at least one input row
+  const inputs = document.getElementById('player-inputs');
+  if (inputs.children.length === 0) addPlayerInput();
+}
+
+function addPlayerInput() {
+  const inputs = document.getElementById('player-inputs');
+  if (inputs.children.length >= 5) return;
+
+  const idx = inputs.children.length;
+  const row = document.createElement('div');
+  row.className = 'player-row';
+  row.innerHTML = `
+    <span class="player-avatar">${PLAYER_EMOJIS[idx]}</span>
+    <input class="player-input" type="text" maxlength="20"
+           placeholder="שם שחקן ${idx + 1}" dir="rtl"
+           onkeydown="if(event.key==='Enter')addPlayerInput()"/>
+    <button class="btn-remove" onclick="removePlayerInput(this)" title="הסר">✕</button>
+  `;
+  inputs.appendChild(row);
+
+  // Hide add button when at max
+  document.getElementById('btn-add-player').style.display =
+    inputs.children.length >= 5 ? 'none' : '';
+
+  // Focus new input
+  row.querySelector('input').focus();
+}
+
+function removePlayerInput(btn) {
+  const inputs = document.getElementById('player-inputs');
+  if (inputs.children.length <= 1) return; // keep at least one
+  btn.closest('.player-row').remove();
+
+  // Refresh avatars & placeholders
+  Array.from(inputs.children).forEach((row, i) => {
+    row.querySelector('.player-avatar').textContent = PLAYER_EMOJIS[i];
+    row.querySelector('input').placeholder = `שם שחקן ${i + 1}`;
+  });
+
+  document.getElementById('btn-add-player').style.display = '';
+}
+
+function beginGame() {
+  const inputs = document.querySelectorAll('.player-input');
+  const names = [];
+  inputs.forEach((inp, i) => {
+    const name = inp.value.trim() || `שחקן ${i + 1}`;
+    names.push(name);
+  });
+
+  players = names.map(name => ({ name, score: 0, correct: 0, wrong: 0, timeouts: 0 }));
+  currentPlayerIdx = 0;
+  showHandoff();
+}
+
+/* ═══════════════════════════════════════
+   HANDOFF SCREEN
+═══════════════════════════════════════ */
+function showHandoff() {
+  const p = players[currentPlayerIdx];
+  document.getElementById('handoff-emoji').textContent = PLAYER_EMOJIS[currentPlayerIdx];
+  document.getElementById('handoff-name').textContent  = p.name;
+
+  // Player progress dots
+  const dotContainer = document.getElementById('handoff-progress');
+  dotContainer.innerHTML = '';
+  players.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'hp-dot' +
+      (i < currentPlayerIdx ? ' done' : i === currentPlayerIdx ? ' curr' : '');
+    dotContainer.appendChild(dot);
+  });
+
+  const isFirst = currentPlayerIdx === 0;
+  document.getElementById('handoff-hint').textContent = isFirst
+    ? 'ענה על 20 שאלות תוך 20 שניות כל אחת 🕐'
+    : `${players[currentPlayerIdx - 1].name} סיים/ה – עכשיו תורך!`;
+
+  showScreen('screen-handoff');
+}
+
+/* ═══════════════════════════════════════
+   START PLAYER QUIZ
+═══════════════════════════════════════ */
+function startPlayerQuiz() {
+  currentQ = 0;
+  answered = false;
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+/* ═══════════════════════════════════════
+   RENDER QUESTION
+═══════════════════════════════════════ */
+function renderQuestion() {
+  answered = false;
+  const q = questions[currentQ];
+  const p = players[currentPlayerIdx];
+
+  // Header
+  document.getElementById('quiz-player-chip').innerHTML =
+    `${PLAYER_EMOJIS[currentPlayerIdx]} ${p.name}`;
+  document.getElementById('q-counter').textContent =
+    `שאלה ${currentQ + 1} מתוך ${questions.length}`;
+  document.getElementById('score-display').textContent = `⭐ ${p.score}`;
+
+  // Progress
+  document.getElementById('progress-fill').style.width =
+    `${(currentQ / questions.length) * 100}%`;
+
+  // Category & question
+  document.getElementById('category-badge').textContent = q.category;
+  document.getElementById('question-text').textContent  = q.text;
+
+  // Options
+  const grid = document.getElementById('options-grid');
+  grid.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${LETTERS[i]}</span>${opt}`;
+    btn.onclick = () => selectAnswer(i, btn);
+    grid.appendChild(btn);
+  });
+
+  // Hide feedback & next
+  document.getElementById('feedback').className = 'feedback';
+  document.getElementById('btn-next').classList.remove('show');
+
+  // Start timer
+  startTimer();
+}
+
+/* ═══════════════════════════════════════
+   TIMER
+═══════════════════════════════════════ */
+function startTimer() {
+  clearTimer();
+  timeLeft = TIMER_SECONDS;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+    if (timeLeft <= 0) {
+      clearTimer();
+      timeExpired();
     }
-  })();
+  }, 1000);
+}
 
-  /* ─── Quiz data ─── */
-  const questions = [
-    {
-      category: '🌍 גאוגרפיה',
-      text: 'מהי בירת צרפת?',
-      options: ['לונדון', 'ברלין', 'פריז', 'מדריד'],
-      correct: 2,
-      explanation: 'פריז היא בירת צרפת ועיר האור המפורסמת! 🗼'
-    },
-    {
-      category: '🦁 טבע',
-      text: 'איזה חיה היא היונק הגדול ביותר בעולם?',
-      options: ['פיל אפריקאי', 'לווייתן כחול', 'כריש לבן', 'קרנף'],
-      correct: 1,
-      explanation: 'לווייתן הכחול הוא החיה הגדולה ביותר שחיה אי פעם על פני כדור הארץ! 🐋'
-    },
-    {
-      category: '🔬 מדע',
-      text: 'כמה פלנטות יש במערכת השמש שלנו?',
-      options: ['7', '8', '9', '10'],
-      correct: 1,
-      explanation: 'יש 8 פלנטות: כוכב חמה, נוגה, כדור הארץ, מאדים, צדק, שבתאי, אורנוס ונפטון. 🪐'
-    },
-    {
-      category: '📜 היסטוריה',
-      text: 'מי בנה את הפירמידות בגיזה?',
-      options: ['הרומאים', 'היוונים', 'המצרים הקדמונים', 'הפרסים'],
-      correct: 2,
-      explanation: 'הפירמידות בגיזה נבנו על ידי המצרים הקדמונים לפני כ-4,500 שנה! 🏛️'
-    },
-    {
-      category: '🔬 מדע',
-      text: 'מה גורם לצבע הכחול של השמיים?',
-      options: ['בשל הים', 'פיזור אור השמש', 'שכבת האוזון', 'ענני גז'],
-      correct: 1,
-      explanation: 'אטמוספירת הארץ מפזרת את אור השמש – הצבע הכחול מתפזר הכי הרבה! ☀️'
-    },
-    {
-      category: '🌍 גאוגרפיה',
-      text: 'מהי היבשת הגדולה ביותר בעולם?',
-      options: ['אפריקה', 'אמריקה הצפונית', 'אירופה', 'אסיה'],
-      correct: 3,
-      explanation: 'אסיה היא היבשת הגדולה ביותר, המכסה כ-30% משטח כדור הארץ! 🌏'
-    },
-    {
-      category: '🦁 טבע',
-      text: 'כמה לבם יש לתמנון?',
-      options: ['אחד', 'שניים', 'שלושה', 'ארבעה'],
-      correct: 2,
-      explanation: 'לתמנון שלושה לבבות: שניים שולחים דם לזימים ואחד לשאר הגוף! 🐙'
-    },
-    {
-      category: '📜 היסטוריה',
-      text: 'באיזו שנה עלתה מדינת ישראל?',
-      options: ['1945', '1947', '1948', '1950'],
-      correct: 2,
-      explanation: 'מדינת ישראל הוכרזה ב-14 במאי 1948 על ידי דוד בן-גוריון! 🇮🇱'
-    },
-    {
-      category: '🔬 מדע',
-      text: 'מאיזה חומר עשוי היהלום?',
-      options: ['סיליקון', 'ברזל', 'פחמן', 'זכוכית'],
-      correct: 2,
-      explanation: 'יהלום הוא הצורה הקשה ביותר של פחמן טהור – האבן הקשה ביותר בטבע! 💎'
-    },
-    {
-      category: '🌍 גאוגרפיה',
-      text: 'מהו הנהר הארוך ביותר בעולם?',
-      options: ['נהר האמזונס', 'נהר הנילוס', 'נהר המיסיסיפי', 'נהר האנגצה'],
-      correct: 1,
-      explanation: 'נהר הנילוס הוא הנהר הארוך ביותר בעולם, באורך של כ-6,650 ק"מ! 🌊'
-    }
-  ];
+function clearTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
 
-  /* ─── State ─── */
-  let currentQ = 0;
-  let score    = 0;
-  let correct  = 0;
-  let answered = false;
-  const LETTERS = ['א', 'ב', 'ג', 'ד'];
+function updateTimerDisplay() {
+  const pct  = (timeLeft / TIMER_SECONDS) * 100;
+  const fill = document.getElementById('timer-fill');
+  const num  = document.getElementById('timer-num');
 
-  /* ─── Helpers ─── */
-  function showScreen(id) {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+  fill.style.width = pct + '%';
+  num.textContent  = timeLeft;
+
+  // Color coding
+  if (timeLeft > 12) {
+    fill.style.background = 'var(--success)';
+    num.className = 'timer-num';
+  } else if (timeLeft > 6) {
+    fill.style.background = 'var(--warn)';
+    num.className = 'timer-num warn';
+  } else {
+    fill.style.background = 'var(--error)';
+    num.className = 'timer-num danger';
+  }
+}
+
+function timeExpired() {
+  if (answered) return;
+  answered = true;
+
+  players[currentPlayerIdx].wrong++;
+  players[currentPlayerIdx].timeouts++;
+
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.disabled = true);
+  allBtns[questions[currentQ].correct].classList.add('reveal');
+
+  const fb = document.getElementById('feedback');
+  document.getElementById('feedback-icon').textContent = '⏰';
+  document.getElementById('feedback-text').textContent =
+    `הזמן נגמר! ${questions[currentQ].explanation}`;
+  fb.className = 'feedback wrong-fb show';
+
+  showNextBtn();
+}
+
+/* ═══════════════════════════════════════
+   SELECT ANSWER
+═══════════════════════════════════════ */
+function selectAnswer(index, btn) {
+  if (answered) return;
+  answered = true;
+  clearTimer();
+
+  const q       = questions[currentQ];
+  const p       = players[currentPlayerIdx];
+  const allBtns = document.querySelectorAll('.option-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  const fb   = document.getElementById('feedback');
+  const icon = document.getElementById('feedback-icon');
+  const text = document.getElementById('feedback-text');
+
+  if (index === q.correct) {
+    p.score  += 10;
+    p.correct++;
+    btn.classList.add('correct');
+    fb.className     = 'feedback correct-fb show';
+    icon.textContent = '🎉';
+    text.textContent = `נכון מאוד! ${q.explanation}`;
+  } else {
+    p.wrong++;
+    btn.classList.add('wrong');
+    allBtns[q.correct].classList.add('reveal');
+    fb.className     = 'feedback wrong-fb show';
+    icon.textContent = '💡';
+    text.textContent = `לא נכון. ${q.explanation}`;
   }
 
-  /* ─── Start ─── */
-  function startQuiz() {
-    currentQ = 0; score = 0; correct = 0;
-    showScreen('screen-quiz');
+  document.getElementById('score-display').textContent = `⭐ ${p.score}`;
+  showNextBtn();
+}
+
+function showNextBtn() {
+  const nextBtn = document.getElementById('btn-next');
+  nextBtn.classList.add('show');
+  nextBtn.textContent =
+    currentQ < questions.length - 1 ? 'הבא ➜' : '🏁 לתוצאות!';
+}
+
+/* ═══════════════════════════════════════
+   NEXT QUESTION
+═══════════════════════════════════════ */
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= questions.length) {
+    showPlayerResult();
+  } else {
     renderQuestion();
   }
+}
 
-  /* ─── Render question ─── */
-  function renderQuestion() {
-    answered = false;
-    const q = questions[currentQ];
+/* ═══════════════════════════════════════
+   PLAYER RESULT
+═══════════════════════════════════════ */
+function showPlayerResult() {
+  clearTimer();
+  const p   = players[currentPlayerIdx];
+  const pct = Math.round((p.correct / questions.length) * 100);
 
-    document.getElementById('q-counter').textContent =
-      `שאלה ${currentQ + 1} מתוך ${questions.length}`;
-    document.getElementById('score-display').textContent = `⭐ ${score} נקודות`;
-    document.getElementById('progress-fill').style.width =
-      `${(currentQ / questions.length) * 100}%`;
-    document.getElementById('category-badge').textContent = q.category;
-    document.getElementById('question-text').textContent = q.text;
+  // Emoji & message
+  let emoji, sub;
+  if (p.correct === questions.length)     { emoji = '🏆'; sub = 'מושלם! ענית נכון על הכול! 🌟'; }
+  else if (p.correct >= 16)               { emoji = '🥇'; sub = 'מדהים! תוצאה מעולה! 😎'; }
+  else if (p.correct >= 12)               { emoji = '😊'; sub = 'כל הכבוד! תוצאה טובה מאוד! 💪'; }
+  else if (p.correct >= 8)                { emoji = '🙂'; sub = 'לא רע! עוד קצת ותגיע/י לשיא! 📚'; }
+  else                                     { emoji = '💪'; sub = 'אל תוותר/י! נסה/י שוב! 🔥'; }
 
-    // Options
-    const grid = document.getElementById('options-grid');
-    grid.innerHTML = '';
-    q.options.forEach((opt, i) => {
-      const btn = document.createElement('button');
-      btn.className = 'option-btn';
-      btn.innerHTML = `<span class="option-letter">${LETTERS[i]}</span>${opt}`;
-      btn.onclick = () => selectAnswer(i, btn);
-      grid.appendChild(btn);
-    });
+  document.getElementById('pr-emoji').textContent   = emoji;
+  document.getElementById('pr-name').textContent    = p.name;
+  document.getElementById('pr-sub').textContent     = sub;
+  document.getElementById('pr-correct').textContent = p.correct;
+  document.getElementById('pr-wrong').textContent   = p.wrong;
+  document.getElementById('pr-timeouts').textContent = p.timeouts;
+  document.getElementById('pr-ring-num').textContent = p.score;
 
-    // Hide feedback & next
-    const fb = document.getElementById('feedback');
-    fb.className = 'feedback';
-    document.getElementById('btn-next').classList.remove('show');
+  // Ring animation
+  const circumference = 339.3;
+  const offset = circumference - (p.score / MAX_SCORE) * circumference;
+  document.getElementById('pr-ring-fill').style.strokeDashoffset = circumference;
+  setTimeout(() => {
+    document.getElementById('pr-ring-fill').style.strokeDashoffset = offset;
+  }, 300);
+
+  // Next button label
+  const isLast = currentPlayerIdx === players.length - 1;
+  document.getElementById('btn-pr-next').textContent =
+    isLast ? '🏆 לוח התוצאות!' : `➜ תורו של ${players[currentPlayerIdx + 1].name}`;
+
+  showScreen('screen-player-result');
+  if (p.correct >= 12) launchConfetti(p.correct === questions.length ? 100 : 50);
+}
+
+function proceedToNext() {
+  currentPlayerIdx++;
+  if (currentPlayerIdx >= players.length) {
+    showLeaderboard();
+  } else {
+    showHandoff();
   }
+}
 
-  /* ─── Select answer ─── */
-  function selectAnswer(index, btn) {
-    if (answered) return;
-    answered = true;
+/* ═══════════════════════════════════════
+   LEADERBOARD
+═══════════════════════════════════════ */
+function showLeaderboard() {
+  // Sort by score (desc), then by correct (desc) as tie-breaker
+  const sorted = [...players]
+    .map((p, origIdx) => ({ ...p, origIdx }))
+    .sort((a, b) => b.score - a.score || b.correct - a.correct);
 
-    const q = questions[currentQ];
-    const allBtns = document.querySelectorAll('.option-btn');
-    allBtns.forEach(b => b.disabled = true);
+  const maxS = sorted[0].score || 1; // avoid /0
+  const MEDALS = ['🥇', '🥈', '🥉'];
+  const CLASSES = ['gold', 'silver', 'bronze'];
 
-    const fb   = document.getElementById('feedback');
-    const icon = document.getElementById('feedback-icon');
-    const text = document.getElementById('feedback-text');
+  const list = document.getElementById('lb-list');
+  list.innerHTML = '';
 
-    if (index === q.correct) {
-      // Correct
-      correct++;
-      score += 10;
-      btn.classList.add('correct');
-      fb.className = 'feedback correct-fb show';
-      icon.textContent = '🎉';
-      text.textContent = `נכון מאוד! ${q.explanation}`;
-    } else {
-      // Wrong
-      btn.classList.add('wrong');
-      allBtns[q.correct].classList.add('reveal');
-      fb.className = 'feedback wrong-fb show';
-      icon.textContent = '💡';
-      text.textContent = `לא נכון. ${q.explanation}`;
-    }
+  sorted.forEach((p, rank) => {
+    const pct = Math.round((p.correct / questions.length) * 100);
+    const row = document.createElement('div');
+    row.className = `lb-row ${CLASSES[rank] || ''}`;
+    row.style.animationDelay = `${rank * 0.08}s`;
+    row.innerHTML = `
+      <div class="lb-rank">${rank < 3 ? MEDALS[rank] : rank + 1}</div>
+      <div class="lb-info">
+        <div class="lb-name">${PLAYER_EMOJIS[p.origIdx]} ${p.name}</div>
+        <div class="lb-detail">✅ ${p.correct}/${questions.length} נכון &nbsp;|&nbsp; ⏰ ${p.timeouts} פג זמן</div>
+        <div class="lb-bar-wrap">
+          <div class="lb-bar" style="width:0%" data-w="${(p.score/maxS*100).toFixed(1)}%"></div>
+        </div>
+      </div>
+      <div class="lb-score">${p.score}</div>
+    `;
+    list.appendChild(row);
+  });
 
-    document.getElementById('score-display').textContent = `⭐ ${score} נקודות`;
+  // Sub-title
+  const winner = sorted[0];
+  document.getElementById('lb-sub').textContent =
+    players.length > 1
+      ? `🎉 ${winner.name} ניצח/ה עם ${winner.score} נקודות!`
+      : `השגת ${winner.score} מתוך ${MAX_SCORE} נקודות!`;
 
-    // Show next / finish
-    const nextBtn = document.getElementById('btn-next');
-    nextBtn.classList.add('show');
-    nextBtn.textContent =
-      currentQ < questions.length - 1 ? 'הבא ➜' : '🏁 לתוצאות!';
-  }
+  showScreen('screen-leaderboard');
 
-  /* ─── Next question ─── */
-  function nextQuestion() {
-    currentQ++;
-    if (currentQ >= questions.length) {
-      showResults();
-    } else {
-      renderQuestion();
-    }
-  }
-
-  /* ─── Results ─── */
-  function showResults() {
-    showScreen('screen-result');
-    const pct   = Math.round((correct / questions.length) * 100);
-    const wrong = questions.length - correct;
-
-    // Emoji & message
-    let emoji, title, sub;
-    if (correct === 10) {
-      emoji = '🏆'; title = 'מושלם לגמרי!';
-      sub = 'ענית נכון על כל השאלות! אתה/את גאון אמיתי/ת! 🌟';
-    } else if (correct >= 8) {
-      emoji = '🥇'; title = 'מדהים!';
-      sub = 'תוצאה מצוינת! אתה/את ממש חכם/ה! 😎';
-    } else if (correct >= 6) {
-      emoji = '😊'; title = 'כל הכבוד!';
-      sub = 'תוצאה טובה מאוד! עוד קצת ותגיע/י לשיא! 💪';
-    } else if (correct >= 4) {
-      emoji = '🙂'; title = 'לא רע!';
-      sub = 'יש מקום לשיפור. נסה/י שוב ותשפר/י את התוצאה! 📚';
-    } else {
-      emoji = '💪'; title = 'אל תוותר/י!';
-      sub = 'כל אחד מתחיל מאיפשהו. תלמד/י וחזור/י לנסות! 🔥';
-    }
-
-    document.getElementById('result-emoji').textContent = emoji;
-    document.getElementById('result-title').textContent = title;
-    document.getElementById('result-sub').textContent   = sub;
-    document.getElementById('stat-correct').textContent = correct;
-    document.getElementById('stat-wrong').textContent   = wrong;
-    document.getElementById('stat-pct').textContent     = pct + '%';
-    document.getElementById('ring-num').textContent     = score;
-
-    // Animate ring
-    const circumference = 364.42;
-    const offset = circumference - (score / 100) * circumference;
+  // Animate bars after DOM paint
+  requestAnimationFrame(() => {
     setTimeout(() => {
-      document.getElementById('ring-fill').style.strokeDashoffset = offset;
-    }, 300);
+      document.querySelectorAll('.lb-bar').forEach(bar => {
+        bar.style.width = bar.dataset.w;
+      });
+    }, 200);
+  });
 
-    // Confetti for good scores
-    if (correct >= 6) launchConfetti(correct >= 8 ? 80 : 40);
+  if (sorted[0].correct >= 12) launchConfetti(80);
+}
+
+/* ═══════════════════════════════════════
+   PLAY AGAIN
+═══════════════════════════════════════ */
+function playAgain() {
+  // Reset all player scores, restart from player 0
+  players.forEach(p => { p.score = 0; p.correct = 0; p.wrong = 0; p.timeouts = 0; });
+  currentPlayerIdx = 0;
+  showHandoff();
+}
+
+/* ═══════════════════════════════════════
+   CONFETTI
+═══════════════════════════════════════ */
+function launchConfetti(count) {
+  const colors = ['#f7971e','#e91e8c','#00e676','#2196f3','#ff5252','#9c27b0','#ffeb3b','#00bcd4'];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left: ${Math.random() * 100}vw;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      --dur:   ${2 + Math.random() * 2}s;
+      --delay: ${Math.random() * 1.5}s;
+      transform: rotate(${Math.random() * 360}deg);
+      width:  ${6 + Math.random() * 8}px;
+      height: ${8 + Math.random() * 10}px;
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4500);
   }
-
-  /* ─── Confetti ─── */
-  function launchConfetti(count) {
-    const colors = ['#f7971e','#e91e8c','#00e676','#2196f3','#ff5252','#9c27b0','#ffeb3b'];
-    for (let i = 0; i < count; i++) {
-      const el = document.createElement('div');
-      el.className = 'confetti-piece';
-      el.style.cssText = `
-        left: ${Math.random()*100}vw;
-        background: ${colors[Math.floor(Math.random()*colors.length)]};
-        --dur:   ${2 + Math.random()*2}s;
-        --delay: ${Math.random()*1.5}s;
-        transform: rotate(${Math.random()*360}deg);
-        width:  ${6 + Math.random()*8}px;
-        height: ${8 + Math.random()*10}px;
-      `;
-      document.body.appendChild(el);
-      setTimeout(() => el.remove(), 4500);
-    }
-  }
-
-  /* ─── Restart / Home ─── */
-  function restartQuiz() { startQuiz(); }
-  function goHome()      { showScreen('screen-welcome'); }
+}
 </script>
 </body>
 </html>
