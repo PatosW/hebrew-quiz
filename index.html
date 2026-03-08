@@ -1029,15 +1029,12 @@ function showHandoff() {
   dotContainer.innerHTML = '';
   players.forEach((_, i) => {
     const dot = document.createElement('div');
-    dot.className = 'hp-dot' +
-      (i < currentPlayerIdx ? ' done' : i === currentPlayerIdx ? ' curr' : '');
+    dot.className = 'hp-dot' + (i === currentPlayerIdx ? ' curr' : '');
     dotContainer.appendChild(dot);
   });
 
-  const isFirst = currentPlayerIdx === 0;
-  document.getElementById('handoff-hint').textContent = isFirst
-    ? 'ענה על 20 שאלות תוך 20 שניות כל אחת 🕐'
-    : `${players[currentPlayerIdx - 1].name} סיים/ה – עכשיו תורך!`;
+  document.getElementById('handoff-hint').textContent =
+    `שאלה ${currentQ + 1} מתוך ${questions.length} 🕐`;
 
   showScreen('screen-handoff');
 }
@@ -1046,7 +1043,6 @@ function showHandoff() {
    START PLAYER QUIZ
 ═══════════════════════════════════════ */
 function startPlayerQuiz() {
-  currentQ = 0;
   answered = false;
   showScreen('screen-quiz');
   renderQuestion();
@@ -1206,9 +1202,10 @@ function showNextBtn() {
 function nextQuestion() {
   currentQ++;
   if (currentQ >= questions.length) {
-    showPlayerResult();
+    showLeaderboard();
   } else {
-    renderQuestion();
+    currentPlayerIdx = (currentPlayerIdx + 1) % players.length;
+    showHandoff();
   }
 }
 
@@ -1322,9 +1319,9 @@ function showLeaderboard() {
    PLAY AGAIN
 ═══════════════════════════════════════ */
 function playAgain() {
-  // Reset all player scores, restart from player 0
   players.forEach(p => { p.score = 0; p.correct = 0; p.wrong = 0; p.timeouts = 0; });
   currentPlayerIdx = 0;
+  currentQ = 0;
   showHandoff();
 }
 
