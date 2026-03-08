@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>חידון ידע כללי לילדים 🌟</title>
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-start: #1a1a2e;
+      --bg-mid:   #16213e;
+      --bg-end:   #0f3460;
+      --card:     rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.18);
+      --primary:  #f7971e;
+      --secondary:#e91e8c;
+      --success:  #00e676;
+      --error:    #ff5252;
+      --text:     #ffffff;
+      --muted:    rgba(255,255,255,0.65);
+      --radius:   18px;
+      --shadow:   0 8px 32px rgba(0,0,0,0.35);
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Arial Hebrew', Arial, sans-serif;
+      background: linear-gradient(135deg, var(--bg-start), var(--bg-mid), var(--bg-end));
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── Floating stars background ─── */
+    .stars {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .star {
+      position: absolute;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: #fff;
+      opacity: 0;
+      animation: twinkle var(--dur, 4s) var(--delay, 0s) infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0; transform: scale(1); }
+      50%      { opacity: 0.8; transform: scale(1.4); }
+    }
+
+    /* ─── Main container ─── */
+    .app {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 680px;
+    }
+
+    /* ─── Screen utility ─── */
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    /* ─── Glass card ─── */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: var(--shadow);
+      padding: 36px 32px;
+      animation: slideIn 0.45s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ─── Welcome screen ─── */
+    .welcome-emoji {
+      font-size: 5rem;
+      text-align: center;
+      display: block;
+      animation: bounce 1.8s infinite;
+      filter: drop-shadow(0 0 20px rgba(247,151,30,0.6));
+    }
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+    .welcome-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin: 16px 0 8px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .welcome-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .info-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 14px 12px;
+      text-align: center;
+    }
+    .info-box .icon { font-size: 1.7rem; display: block; margin-bottom: 4px; }
+    .info-box .label { font-size: 0.82rem; color: var(--muted); }
+    .info-box .value { font-size: 1rem; font-weight: 700; }
+
+    /* ─── Buttons ─── */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px 20px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+      letter-spacing: 0.5px;
+      font-family: inherit;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(233,30,140,0.45);
+    }
+    .btn-primary:hover { filter: brightness(1.12); box-shadow: 0 6px 28px rgba(233,30,140,0.6); }
+    .btn-outline {
+      background: rgba(255,255,255,0.08);
+      border: 2px solid rgba(255,255,255,0.25);
+      color: #fff;
+      margin-top: 10px;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.14); }
+
+    /* ─── Progress bar ─── */
+    .progress-wrapper {
+      margin-bottom: 22px;
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+    .q-counter { font-weight: 700; }
+    .score-badge {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 3px 14px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+    .progress-track {
+      height: 10px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 50px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 50px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transition: width 0.5s cubic-bezier(.22,1,.36,1);
+      box-shadow: 0 0 12px rgba(233,30,140,0.5);
+    }
+
+    /* ─── Category badge ─── */
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50px;
+      padding: 4px 14px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    /* ─── Question text ─── */
+    .question-text {
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.55;
+      margin-bottom: 26px;
+      color: #fff;
+    }
+
+    /* ─── Answer options ─── */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    @media (max-width: 480px) {
+      .options-grid { grid-template-columns: 1fr; }
+      .card { padding: 26px 20px; }
+      .welcome-title { font-size: 1.7rem; }
+    }
+    .option-btn {
+      background: rgba(255,255,255,0.07);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      padding: 16px 14px;
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: right;
+      transition: background 0.18s, border-color 0.18s, transform 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: inherit;
+      line-height: 1.4;
+    }
+    .option-btn:hover:not(:disabled) {
+      background: rgba(255,255,255,0.14);
+      border-color: rgba(255,255,255,0.35);
+      transform: translateY(-2px);
+    }
+    .option-btn:disabled { cursor: default; }
+    .option-btn.correct {
+      background: rgba(0,230,118,0.18);
+      border-color: var(--success);
+      box-shadow: 0 0 18px rgba(0,230,118,0.35);
+      animation: popIn 0.35s ease;
+    }
+    .option-btn.wrong {
+      background: rgba(255,82,82,0.18);
+      border-color: var(--error);
+      box-shadow: 0 0 18px rgba(255,82,82,0.25);
+      animation: shake 0.4s ease;
+    }
+    .option-btn.reveal {
+      background: rgba(0,230,118,0.10);
+      border-color: rgba(0,230,118,0.45);
+    }
+    @keyframes popIn {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.07); }
+      100% { transform: scale(1); }
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-6px); }
+      60%      { transform: translateX(6px); }
+    }
+
+    .option-letter {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 800;
+      flex-shrink: 0;
+      transition: background 0.18s;
+    }
+    .option-btn.correct .option-letter { background: var(--success); color: #000; }
+    .option-btn.wrong   .option-letter { background: var(--error);   color: #fff; }
+    .option-btn.reveal  .option-letter { background: rgba(0,230,118,0.5); }
+
+    /* ─── Feedback banner ─── */
+    .feedback {
+      display: none;
+      border-radius: 12px;
+      padding: 14px 18px;
+      font-weight: 700;
+      font-size: 1.0rem;
+      margin-bottom: 18px;
+      animation: slideIn 0.3s ease;
+    }
+    .feedback.show { display: flex; align-items: center; gap: 10px; }
+    .feedback.correct-fb {
+      background: rgba(0,230,118,0.15);
+      border: 1px solid rgba(0,230,118,0.4);
+      color: var(--success);
+    }
+    .feedback.wrong-fb {
+      background: rgba(255,82,82,0.15);
+      border: 1px solid rgba(255,82,82,0.35);
+      color: #ff8a80;
+    }
+    .feedback-icon { font-size: 1.4rem; }
+
+    /* ─── Next button ─── */
+    .btn-next {
+      display: none;
+      background: linear-gradient(135deg, #7b2ff7, #2196f3);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(123,47,247,0.4);
+    }
+    .btn-next.show { display: block; }
+    .btn-next:hover { filter: brightness(1.1); }
+
+    /* ─── Result screen ─── */
+    .result-emoji-big {
+      font-size: 5.5rem;
+      text-align: center;
+      display: block;
+      animation: pop 0.6s cubic-bezier(.22,1,.36,1);
+    }
+    @keyframes pop {
+      0%   { transform: scale(0.3) rotate(-20deg); opacity: 0; }
+      70%  { transform: scale(1.15) rotate(4deg); opacity: 1; }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+    .result-title {
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: 900;
+      margin: 14px 0 6px;
+    }
+    .result-sub {
+      text-align: center;
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    /* ─── Score ring ─── */
+    .score-ring-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .score-ring {
+      position: relative;
+      width: 140px; height: 140px;
+    }
+    .score-ring svg { transform: rotate(-90deg); }
+    .score-ring circle { fill: none; stroke-width: 12; }
+    .score-ring .track  { stroke: rgba(255,255,255,0.1); }
+    .score-ring .fill   {
+      stroke: url(#scoreGrad);
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s cubic-bezier(.22,1,.36,1);
+    }
+    .score-ring-label {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .score-ring-num  { font-size: 2rem; font-weight: 900; }
+    .score-ring-text { font-size: 0.75rem; color: var(--muted); }
+
+    /* ─── Stats row ─── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .stat-box {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+    .stat-box .s-icon  { font-size: 1.5rem; display: block; }
+    .stat-box .s-value { font-size: 1.3rem; font-weight: 800; display: block; margin: 2px 0; }
+    .stat-box .s-label { font-size: 0.75rem; color: var(--muted); }
+
+    /* ─── Confetti ─── */
+    .confetti-piece {
+      position: fixed;
+      width: 10px; height: 14px;
+      border-radius: 3px;
+      top: -20px;
+      animation: confettiFall var(--dur,3s) var(--delay,0s) ease-in forwards;
+      z-index: 999;
+      pointer-events: none;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Starfield background -->
+<div class="stars" id="stars"></div>
+
+<div class="app">
+
+  <!-- ══════════════ WELCOME SCREEN ══════════════ -->
+  <div class="screen active" id="screen-welcome">
+    <div class="card">
+      <span class="welcome-emoji">🌟</span>
+      <h1 class="welcome-title">חידון ידע כללי!</h1>
+      <p class="welcome-sub">
+        ברוכים הבאים לחידון המרתק!<br>
+        בדוק את הידע שלך בהיסטוריה, טבע, מדע וגאוגרפיה 🌍🔬🦁
+      </p>
+      <div class="info-grid">
+        <div class="info-box">
+          <span class="icon">❓</span>
+          <span class="label">מספר שאלות</span>
+          <span class="value">10 שאלות</span>
+        </div>
+        <div class="info-box">
+          <span class="icon">🏆</span>
+          <span class="label">ניקוד מרבי</span>
+          <span class="value">100 נקודות</span>
+        </div>
+        <div class="info-box">
+          <span class="icon">🎯</span>
+          <span class="label">תחומים</span>
+          <span class="value">4 קטגוריות</span>
+        </div>
+        <div class="info-box">
+          <span class="icon">⚡</span>
+          <span class="label">רמת קושי</span>
+          <span class="value">לגיל 9–16</span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startQuiz()">🚀 בוא נתחיל!</button>
+    </div>
+  </div>
+
+  <!-- ══════════════ QUIZ SCREEN ══════════════ -->
+  <div class="screen" id="screen-quiz">
+    <div class="card">
+      <!-- Progress -->
+      <div class="progress-wrapper">
+        <div class="progress-meta">
+          <span class="q-counter" id="q-counter">שאלה 1 מתוך 10</span>
+          <span class="score-badge" id="score-display">⭐ 0 נקודות</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Category -->
+      <div class="category-badge" id="category-badge">🔬 מדע</div>
+
+      <!-- Question -->
+      <div class="question-text" id="question-text"></div>
+
+      <!-- Options -->
+      <div class="options-grid" id="options-grid"></div>
+
+      <!-- Feedback -->
+      <div class="feedback" id="feedback">
+        <span class="feedback-icon" id="feedback-icon"></span>
+        <span id="feedback-text"></span>
+      </div>
+
+      <!-- Next button -->
+      <button class="btn btn-next" id="btn-next" onclick="nextQuestion()">
+        הבא ➜
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════ RESULT SCREEN ══════════════ -->
+  <div class="screen" id="screen-result">
+    <div class="card">
+      <span class="result-emoji-big" id="result-emoji">🏆</span>
+      <h2 class="result-title" id="result-title">כל הכבוד!</h2>
+      <p class="result-sub" id="result-sub">תוצאה מצוינת!</p>
+
+      <!-- Score ring -->
+      <div class="score-ring-wrap">
+        <div class="score-ring">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <defs>
+              <linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#f7971e"/>
+                <stop offset="100%" stop-color="#e91e8c"/>
+              </linearGradient>
+            </defs>
+            <circle class="track" cx="70" cy="70" r="58"/>
+            <circle class="fill"  cx="70" cy="70" r="58"
+                    id="ring-fill"
+                    stroke-dasharray="364.42"
+                    stroke-dashoffset="364.42"/>
+          </svg>
+          <div class="score-ring-label">
+            <span class="score-ring-num" id="ring-num">0</span>
+            <span class="score-ring-text">מתוך 100</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        <div class="stat-box">
+          <span class="s-icon">✅</span>
+          <span class="s-value" id="stat-correct">0</span>
+          <span class="s-label">תשובות נכונות</span>
+        </div>
+        <div class="stat-box">
+          <span class="s-icon">❌</span>
+          <span class="s-value" id="stat-wrong">0</span>
+          <span class="s-label">תשובות שגויות</span>
+        </div>
+        <div class="stat-box">
+          <span class="s-icon">🎯</span>
+          <span class="s-value" id="stat-pct">0%</span>
+          <span class="s-label">אחוז הצלחה</span>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" onclick="restartQuiz()">🔄 שחק שוב!</button>
+      <button class="btn btn-outline" onclick="goHome()">🏠 מסך הפתיחה</button>
+    </div>
+  </div>
+
+</div><!-- /.app -->
+
+<script>
+  /* ─── Starfield ─── */
+  (function () {
+    const container = document.getElementById('stars');
+    for (let i = 0; i < 80; i++) {
+      const s = document.createElement('div');
+      s.className = 'star';
+      s.style.cssText = `
+        left: ${Math.random()*100}%;
+        top:  ${Math.random()*100}%;
+        --dur:   ${2 + Math.random()*5}s;
+        --delay: ${Math.random()*6}s;
+        width:  ${1 + Math.random()*3}px;
+        height: ${1 + Math.random()*3}px;
+      `;
+      container.appendChild(s);
+    }
+  })();
+
+  /* ─── Quiz data ─── */
+  const questions = [
+    {
+      category: '🌍 גאוגרפיה',
+      text: 'מהי בירת צרפת?',
+      options: ['לונדון', 'ברלין', 'פריז', 'מדריד'],
+      correct: 2,
+      explanation: 'פריז היא בירת צרפת ועיר האור המפורסמת! 🗼'
+    },
+    {
+      category: '🦁 טבע',
+      text: 'איזה חיה היא היונק הגדול ביותר בעולם?',
+      options: ['פיל אפריקאי', 'לווייתן כחול', 'כריש לבן', 'קרנף'],
+      correct: 1,
+      explanation: 'לווייתן הכחול הוא החיה הגדולה ביותר שחיה אי פעם על פני כדור הארץ! 🐋'
+    },
+    {
+      category: '🔬 מדע',
+      text: 'כמה פלנטות יש במערכת השמש שלנו?',
+      options: ['7', '8', '9', '10'],
+      correct: 1,
+      explanation: 'יש 8 פלנטות: כוכב חמה, נוגה, כדור הארץ, מאדים, צדק, שבתאי, אורנוס ונפטון. 🪐'
+    },
+    {
+      category: '📜 היסטוריה',
+      text: 'מי בנה את הפירמידות בגיזה?',
+      options: ['הרומאים', 'היוונים', 'המצרים הקדמונים', 'הפרסים'],
+      correct: 2,
+      explanation: 'הפירמידות בגיזה נבנו על ידי המצרים הקדמונים לפני כ-4,500 שנה! 🏛️'
+    },
+    {
+      category: '🔬 מדע',
+      text: 'מה גורם לצבע הכחול של השמיים?',
+      options: ['בשל הים', 'פיזור אור השמש', 'שכבת האוזון', 'ענני גז'],
+      correct: 1,
+      explanation: 'אטמוספירת הארץ מפזרת את אור השמש – הצבע הכחול מתפזר הכי הרבה! ☀️'
+    },
+    {
+      category: '🌍 גאוגרפיה',
+      text: 'מהי היבשת הגדולה ביותר בעולם?',
+      options: ['אפריקה', 'אמריקה הצפונית', 'אירופה', 'אסיה'],
+      correct: 3,
+      explanation: 'אסיה היא היבשת הגדולה ביותר, המכסה כ-30% משטח כדור הארץ! 🌏'
+    },
+    {
+      category: '🦁 טבע',
+      text: 'כמה לבם יש לתמנון?',
+      options: ['אחד', 'שניים', 'שלושה', 'ארבעה'],
+      correct: 2,
+      explanation: 'לתמנון שלושה לבבות: שניים שולחים דם לזימים ואחד לשאר הגוף! 🐙'
+    },
+    {
+      category: '📜 היסטוריה',
+      text: 'באיזו שנה עלתה מדינת ישראל?',
+      options: ['1945', '1947', '1948', '1950'],
+      correct: 2,
+      explanation: 'מדינת ישראל הוכרזה ב-14 במאי 1948 על ידי דוד בן-גוריון! 🇮🇱'
+    },
+    {
+      category: '🔬 מדע',
+      text: 'מאיזה חומר עשוי היהלום?',
+      options: ['סיליקון', 'ברזל', 'פחמן', 'זכוכית'],
+      correct: 2,
+      explanation: 'יהלום הוא הצורה הקשה ביותר של פחמן טהור – האבן הקשה ביותר בטבע! 💎'
+    },
+    {
+      category: '🌍 גאוגרפיה',
+      text: 'מהו הנהר הארוך ביותר בעולם?',
+      options: ['נהר האמזונס', 'נהר הנילוס', 'נהר המיסיסיפי', 'נהר האנגצה'],
+      correct: 1,
+      explanation: 'נהר הנילוס הוא הנהר הארוך ביותר בעולם, באורך של כ-6,650 ק"מ! 🌊'
+    }
+  ];
+
+  /* ─── State ─── */
+  let currentQ = 0;
+  let score    = 0;
+  let correct  = 0;
+  let answered = false;
+  const LETTERS = ['א', 'ב', 'ג', 'ד'];
+
+  /* ─── Helpers ─── */
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  /* ─── Start ─── */
+  function startQuiz() {
+    currentQ = 0; score = 0; correct = 0;
+    showScreen('screen-quiz');
+    renderQuestion();
+  }
+
+  /* ─── Render question ─── */
+  function renderQuestion() {
+    answered = false;
+    const q = questions[currentQ];
+
+    document.getElementById('q-counter').textContent =
+      `שאלה ${currentQ + 1} מתוך ${questions.length}`;
+    document.getElementById('score-display').textContent = `⭐ ${score} נקודות`;
+    document.getElementById('progress-fill').style.width =
+      `${(currentQ / questions.length) * 100}%`;
+    document.getElementById('category-badge').textContent = q.category;
+    document.getElementById('question-text').textContent = q.text;
+
+    // Options
+    const grid = document.getElementById('options-grid');
+    grid.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span class="option-letter">${LETTERS[i]}</span>${opt}`;
+      btn.onclick = () => selectAnswer(i, btn);
+      grid.appendChild(btn);
+    });
+
+    // Hide feedback & next
+    const fb = document.getElementById('feedback');
+    fb.className = 'feedback';
+    document.getElementById('btn-next').classList.remove('show');
+  }
+
+  /* ─── Select answer ─── */
+  function selectAnswer(index, btn) {
+    if (answered) return;
+    answered = true;
+
+    const q = questions[currentQ];
+    const allBtns = document.querySelectorAll('.option-btn');
+    allBtns.forEach(b => b.disabled = true);
+
+    const fb   = document.getElementById('feedback');
+    const icon = document.getElementById('feedback-icon');
+    const text = document.getElementById('feedback-text');
+
+    if (index === q.correct) {
+      // Correct
+      correct++;
+      score += 10;
+      btn.classList.add('correct');
+      fb.className = 'feedback correct-fb show';
+      icon.textContent = '🎉';
+      text.textContent = `נכון מאוד! ${q.explanation}`;
+    } else {
+      // Wrong
+      btn.classList.add('wrong');
+      allBtns[q.correct].classList.add('reveal');
+      fb.className = 'feedback wrong-fb show';
+      icon.textContent = '💡';
+      text.textContent = `לא נכון. ${q.explanation}`;
+    }
+
+    document.getElementById('score-display').textContent = `⭐ ${score} נקודות`;
+
+    // Show next / finish
+    const nextBtn = document.getElementById('btn-next');
+    nextBtn.classList.add('show');
+    nextBtn.textContent =
+      currentQ < questions.length - 1 ? 'הבא ➜' : '🏁 לתוצאות!';
+  }
+
+  /* ─── Next question ─── */
+  function nextQuestion() {
+    currentQ++;
+    if (currentQ >= questions.length) {
+      showResults();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  /* ─── Results ─── */
+  function showResults() {
+    showScreen('screen-result');
+    const pct   = Math.round((correct / questions.length) * 100);
+    const wrong = questions.length - correct;
+
+    // Emoji & message
+    let emoji, title, sub;
+    if (correct === 10) {
+      emoji = '🏆'; title = 'מושלם לגמרי!';
+      sub = 'ענית נכון על כל השאלות! אתה/את גאון אמיתי/ת! 🌟';
+    } else if (correct >= 8) {
+      emoji = '🥇'; title = 'מדהים!';
+      sub = 'תוצאה מצוינת! אתה/את ממש חכם/ה! 😎';
+    } else if (correct >= 6) {
+      emoji = '😊'; title = 'כל הכבוד!';
+      sub = 'תוצאה טובה מאוד! עוד קצת ותגיע/י לשיא! 💪';
+    } else if (correct >= 4) {
+      emoji = '🙂'; title = 'לא רע!';
+      sub = 'יש מקום לשיפור. נסה/י שוב ותשפר/י את התוצאה! 📚';
+    } else {
+      emoji = '💪'; title = 'אל תוותר/י!';
+      sub = 'כל אחד מתחיל מאיפשהו. תלמד/י וחזור/י לנסות! 🔥';
+    }
+
+    document.getElementById('result-emoji').textContent = emoji;
+    document.getElementById('result-title').textContent = title;
+    document.getElementById('result-sub').textContent   = sub;
+    document.getElementById('stat-correct').textContent = correct;
+    document.getElementById('stat-wrong').textContent   = wrong;
+    document.getElementById('stat-pct').textContent     = pct + '%';
+    document.getElementById('ring-num').textContent     = score;
+
+    // Animate ring
+    const circumference = 364.42;
+    const offset = circumference - (score / 100) * circumference;
+    setTimeout(() => {
+      document.getElementById('ring-fill').style.strokeDashoffset = offset;
+    }, 300);
+
+    // Confetti for good scores
+    if (correct >= 6) launchConfetti(correct >= 8 ? 80 : 40);
+  }
+
+  /* ─── Confetti ─── */
+  function launchConfetti(count) {
+    const colors = ['#f7971e','#e91e8c','#00e676','#2196f3','#ff5252','#9c27b0','#ffeb3b'];
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.cssText = `
+        left: ${Math.random()*100}vw;
+        background: ${colors[Math.floor(Math.random()*colors.length)]};
+        --dur:   ${2 + Math.random()*2}s;
+        --delay: ${Math.random()*1.5}s;
+        transform: rotate(${Math.random()*360}deg);
+        width:  ${6 + Math.random()*8}px;
+        height: ${8 + Math.random()*10}px;
+      `;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 4500);
+    }
+  }
+
+  /* ─── Restart / Home ─── */
+  function restartQuiz() { startQuiz(); }
+  function goHome()      { showScreen('screen-welcome'); }
+</script>
+</body>
+</html>
