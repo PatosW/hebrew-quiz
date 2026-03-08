@@ -224,6 +224,41 @@
     }
     .btn-remove:hover { background: rgba(255,82,82,0.3); }
 
+    /* ─── Game settings selectors ─── */
+    .settings-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .setting-box {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .setting-label {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .setting-select {
+      width: 100%;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: inherit;
+      padding: 6px 10px;
+      cursor: pointer;
+      direction: rtl;
+    }
+    .setting-select option { background: #1a1a2e; color: #fff; }
+
     /* ─── Handoff screen ─── */
     .handoff-name {
       font-size: 2.5rem;
@@ -591,12 +626,12 @@
         <div class="info-box">
           <span class="i-icon">❓</span>
           <span class="i-label">מספר שאלות</span>
-          <span class="i-value">20 שאלות</span>
+          <span class="i-value">5–20 שאלות</span>
         </div>
         <div class="info-box">
           <span class="i-icon">⏱️</span>
           <span class="i-label">זמן לשאלה</span>
-          <span class="i-value">20 שניות</span>
+          <span class="i-value">עד 20 שניות</span>
         </div>
         <div class="info-box">
           <span class="i-icon">👥</span>
@@ -621,6 +656,25 @@
       <p class="screen-sub">הכנס שמות (לפחות שחקן אחד, עד 5)</p>
       <div class="player-inputs" id="player-inputs"></div>
       <button class="btn-add" id="btn-add-player" onclick="addPlayerInput()">＋ הוסף שחקן</button>
+      <div class="settings-row">
+        <div class="setting-box">
+          <label class="setting-label">❓ מספר שאלות</label>
+          <select class="setting-select" id="sel-num-questions">
+            <option value="5">5 שאלות</option>
+            <option value="10" selected>10 שאלות</option>
+            <option value="15">15 שאלות</option>
+            <option value="20">20 שאלות</option>
+          </select>
+        </div>
+        <div class="setting-box">
+          <label class="setting-label">⏱️ זמן לשאלה</label>
+          <select class="setting-select" id="sel-timer">
+            <option value="10">10 שניות</option>
+            <option value="15">15 שניות</option>
+            <option value="20" selected>20 שניות</option>
+          </select>
+        </div>
+      </div>
       <button class="btn btn-primary" onclick="beginGame()">🚀 בואו נשחק!</button>
       <button class="btn btn-outline" onclick="showScreen('screen-welcome')">← חזרה</button>
     </div>
@@ -847,6 +901,193 @@ const questions = [
     explanation: 'נהר הנילוס באפריקה הוא הנהר הארוך ביותר בעולם, כ-6,650 ק"מ! 🌊'
   },
 
+  // ── GEOGRAPHY ──────────────────────────────────────
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהי הארץ הגדולה ביותר בעולם (לפי שטח)?',
+    options: ['קנדה', 'סין', 'ארצות הברית', 'רוסיה'],
+    correct: 3,
+    explanation: 'רוסיה היא הארץ הגדולה ביותר בעולם – כ-17 מיליון קמ"ר! 🗺️'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהי בירת אוסטרליה?',
+    options: ['סידני', 'מלבורן', 'קנברה', 'ברייסביין'],
+    correct: 2,
+    explanation: 'קנברה היא בירת אוסטרליה – רבים חושבים שזה סידני אבל טועים! 🦘'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהי בירת ברזיל?',
+    options: ['ריו דה ז\'נרו', 'סאו פאולו', 'ברזיליה', 'סלבדור'],
+    correct: 2,
+    explanation: 'ברזיליה היא בירת ברזיל – היא נבנתה במיוחד כבירה בשנות ה-60! 🌴'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'כמה יבשות יש בעולם?',
+    options: ['5', '6', '7', '8'],
+    correct: 2,
+    explanation: '7 יבשות: אסיה, אפריקה, אמריקה הצפונית, אמריקה הדרומית, אנטרקטיקה, אירופה ואוסטרליה! 🌍'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהו ההר הגבוה ביותר בעולם?',
+    options: ['K2', 'מונט בלאן', 'קילימנג\'רו', 'אוורסט'],
+    correct: 3,
+    explanation: 'הר אוורסט בהימלאיה הוא הגבוה בעולם – 8,849 מטר מעל פני הים! 🏔️'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהי הבירה של יפן?',
+    options: ['אוסקה', 'קיוטו', 'טוקיו', 'הירושימה'],
+    correct: 2,
+    explanation: 'טוקיו היא בירת יפן ואחת הערים הגדולות בעולם! 🗼'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהו האוקיינוס הגדול ביותר בעולם?',
+    options: ['האטלנטי', 'ההודי', 'הארקטי', 'השקט'],
+    correct: 3,
+    explanation: 'האוקיינוס השקט הוא הגדול ביותר – מכסה יותר משליש מכדור הארץ! 🌊'
+  },
+  {
+    category: '🌍 גאוגרפיה',
+    text: 'מהי הבירה של קנדה?',
+    options: ['טורונטו', 'מונטריאול', 'ונקובר', 'אוטווה'],
+    correct: 3,
+    explanation: 'אוטווה היא בירת קנדה – רבים חושבים שזה טורונטו! 🍁'
+  },
+  // ── NATURE ─────────────────────────────────────────
+  {
+    category: '🦁 טבע',
+    text: 'מהו בעל החיים המהיר ביותר ביבשה?',
+    options: ['אריה', 'צ\'יטה', 'נמר', 'סוס'],
+    correct: 1,
+    explanation: 'הצ\'יטה יכול להגיע למהירות של 110 קמ"ש – המהיר ביותר ביבשה! 🐆'
+  },
+  {
+    category: '🦁 טבע',
+    text: 'כמה רגליים יש לעכביש?',
+    options: ['6', '8', '10', '12'],
+    correct: 1,
+    explanation: 'לעכביש 8 רגליים – בניגוד לחרקים שיש להם רק 6! 🕷️'
+  },
+  {
+    category: '🦁 טבע',
+    text: 'מהי הציפור הגדולה ביותר בעולם?',
+    options: ['פינגווין', 'נשר', 'יענה', 'פלמינגו'],
+    correct: 2,
+    explanation: 'היענה היא הציפור הגדולה בעולם – אך היא לא יכולה לעוף! 🦤'
+  },
+  {
+    category: '🦁 טבע',
+    text: 'כמה חודשים נמשך ההיריון של פילה?',
+    options: ['6 חודשים', '12 חודשים', '22 חודשים', '36 חודשים'],
+    correct: 2,
+    explanation: 'ההיריון של פילה נמשך כ-22 חודשים – הארוך ביותר בממלכת החי! 🐘'
+  },
+  // ── SCIENCE ────────────────────────────────────────
+  {
+    category: '🔬 מדע',
+    text: 'כמה צבעים יש בקשת בענן?',
+    options: ['5', '6', '7', '8'],
+    correct: 2,
+    explanation: '7 צבעים: אדום, כתום, צהוב, ירוק, כחול, אינדיגו וסגול! 🌈'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'מה הנוסחה הכימית של מים?',
+    options: ['CO2', 'H2O', 'O2', 'NaCl'],
+    correct: 1,
+    explanation: 'מים מורכבים משני אטומי מימן ואטום חמצן אחד – H2O! 💧'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'כמה שיניים יש לאדם בוגר (כולל שיני בינה)?',
+    options: ['28', '30', '32', '36'],
+    correct: 2,
+    explanation: 'לאדם בוגר 32 שיניים כולל 4 שיני בינה! 🦷'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'באיזה טמפרטורה (צלזיוס) רותחים המים?',
+    options: ['90°', '95°', '100°', '110°'],
+    correct: 2,
+    explanation: 'מים רותחים ב-100 מעלות צלזיוס בלחץ אטמוספרי רגיל! 🌡️'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'כמה עצמות יש לאדם בוגר?',
+    options: ['106', '206', '306', '406'],
+    correct: 1,
+    explanation: 'לאדם בוגר 206 עצמות – תינוקות נולדים עם כ-270 שמתמזגות עם הגיל! 🦴'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'מהו הגז הנפוץ ביותר באטמוספרה של כדור הארץ?',
+    options: ['חמצן', 'פחמן דו-חמצני', 'מימן', 'חנקן'],
+    correct: 3,
+    explanation: 'חנקן (N₂) מהווה כ-78% מהאטמוספרה – הרבה יותר מחמצן (21%)! 🌬️'
+  },
+  {
+    category: '🔬 מדע',
+    text: 'מהו המספר הראשוני הזוגי היחידי?',
+    options: ['1', '2', '4', '6'],
+    correct: 1,
+    explanation: '2 הוא המספר הראשוני הזוגי היחידי – כל זוגי אחר מתחלק ב-2! 🔢'
+  },
+  // ── HISTORY ────────────────────────────────────────
+  {
+    category: '📜 היסטוריה',
+    text: 'מי היה הנשיא הראשון של ארצות הברית?',
+    options: ['אברהם לינקולן', 'בנג\'מין פרנקלין', 'גורג\' וושינגטון', 'תומס ג\'פרסון'],
+    correct: 2,
+    explanation: 'גורג\' וושינגטון היה הנשיא הראשון של ארה"ב (1789–1797)! 🇺🇸'
+  },
+  {
+    category: '📜 היסטוריה',
+    text: 'באיזו שנה נפלה חומת ברלין?',
+    options: ['1985', '1987', '1989', '1991'],
+    correct: 2,
+    explanation: 'חומת ברלין נפלה ב-9 בנובמבר 1989 – סמל לסיום המלחמה הקרה! 🧱'
+  },
+  {
+    category: '📜 היסטוריה',
+    text: 'מהו שם הספינה המפורסמת שטבעה ב-1912?',
+    options: ['אולימפיק', 'טיטאניק', 'מאוריטניה', 'לוסיטניה'],
+    correct: 1,
+    explanation: 'הטיטאניק טבעה ב-15 באפריל 1912 לאחר שנתקלה בקרחון! 🚢'
+  },
+  {
+    category: '📜 היסטוריה',
+    text: 'מי המציא את הטלפון?',
+    options: ['תומאס אדיסון', 'אלברט איינשטיין', 'אלכסנדר גראהם בל', 'גוליאלמו מרקוני'],
+    correct: 2,
+    explanation: 'אלכסנדר גראהם בל המציא את הטלפון ב-1876! 📞'
+  },
+  // ── SPORT ──────────────────────────────────────────
+  {
+    category: '⚽ ספורט',
+    text: 'כמה שחקנים יש בקבוצת כדורגל בשטח?',
+    options: ['9', '10', '11', '12'],
+    correct: 2,
+    explanation: 'בכדורגל משחקים 11 שחקנים מכל קבוצה – כולל השוער! ⚽'
+  },
+  {
+    category: '⚽ ספורט',
+    text: 'כמה טבעות יש בסמל האולימפיאדה?',
+    options: ['4', '5', '6', '7'],
+    correct: 1,
+    explanation: '5 טבעות צבעוניות מייצגות את 5 היבשות המאוחדות בספורט! 🏅'
+  },
+  {
+    category: '⚽ ספורט',
+    text: 'כמה שחקנים יש בקבוצת כדורסל בשטח?',
+    options: ['4', '5', '6', '7'],
+    correct: 1,
+    explanation: 'בכדורסל משחקים 5 שחקנים מכל קבוצה! 🏀'
+  },
   // ── JEWISH HOLIDAYS (10) ─────────────────────────────
   {
     category: '✡️ חגים יהודיים',
@@ -927,16 +1168,40 @@ const questions = [
     ],
     correct: 1,
     explanation: 'בשמחת תורה מסיימים לקרוא את כל התורה ומתחילים מיד מבראשית! 📖🎉'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'כמה מצוות יש בתורה לפי המסורת?',
+    options: ['365', '248', '613', '500'],
+    correct: 2,
+    explanation: '613 מצוות: 248 מצוות עשה (כנגד אברי הגוף) ו-365 לא תעשה (כנגד ימות השנה)! 📖'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'מה שמו של הספר שקוראים בליל הסדר?',
+    options: ['המשנה', 'ההגדה', 'הסידור', 'הזוהר'],
+    correct: 1,
+    explanation: 'ההגדה של פסח מספרת את סיפור יציאת מצרים ומלווה את ליל הסדר! 🫓'
+  },
+  {
+    category: '✡️ חגים יהודיים',
+    text: 'מה עושים עם האפיקומן בליל הסדר?',
+    options: ['שורפים אותו', 'נותנים אותו לעני', 'הילדים מסתירים אותו', 'אוכלים אותו ראשון'],
+    correct: 2,
+    explanation: 'הילדים מסתירים את האפיקומן וגואלים אותו מההורים – זה חלק כיפי מהסדר! 🎭'
   }
 ];
 
 /* ═══════════════════════════════════════
    CONSTANTS & STATE
 ═══════════════════════════════════════ */
-const TIMER_SECONDS = 20;
-const MAX_SCORE     = questions.length * 10; // 200
 const LETTERS       = ['א', 'ב', 'ג', 'ד'];
 const PLAYER_EMOJIS = ['🦁', '🐯', '🦊', '🐻', '🐼'];
+
+let TIMER_SECONDS   = 20;
+let MAX_SCORE       = 0;
+let numQuestions    = 10;
+let gameQuestions   = [];   // shuffled slice used for current game
 
 let players         = [];   // [{name, score, correct, wrong, timeouts}]
 let currentPlayerIdx = 0;
@@ -944,6 +1209,15 @@ let currentQ        = 0;
 let answered        = false;
 let timerInterval   = null;
 let timeLeft        = TIMER_SECONDS;
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 /* ═══════════════════════════════════════
    SCREEN MANAGEMENT
@@ -1011,8 +1285,14 @@ function beginGame() {
     names.push(name);
   });
 
+  numQuestions  = parseInt(document.getElementById('sel-num-questions').value, 10);
+  TIMER_SECONDS = parseInt(document.getElementById('sel-timer').value, 10);
+  gameQuestions = shuffle(questions).slice(0, numQuestions);
+  MAX_SCORE     = numQuestions * 10;
+
   players = names.map(name => ({ name, score: 0, correct: 0, wrong: 0, timeouts: 0 }));
   currentPlayerIdx = 0;
+  currentQ = 0;
   showHandoff();
 }
 
@@ -1034,7 +1314,7 @@ function showHandoff() {
   });
 
   document.getElementById('handoff-hint').textContent =
-    `שאלה ${currentQ + 1} מתוך ${questions.length} 🕐`;
+    `שאלה ${currentQ + 1} מתוך ${gameQuestions.length} 🕐`;
 
   showScreen('screen-handoff');
 }
@@ -1053,19 +1333,19 @@ function startPlayerQuiz() {
 ═══════════════════════════════════════ */
 function renderQuestion() {
   answered = false;
-  const q = questions[currentQ];
+  const q = gameQuestions[currentQ];
   const p = players[currentPlayerIdx];
 
   // Header
   document.getElementById('quiz-player-chip').innerHTML =
     `${PLAYER_EMOJIS[currentPlayerIdx]} ${p.name}`;
   document.getElementById('q-counter').textContent =
-    `שאלה ${currentQ + 1} מתוך ${questions.length}`;
+    `שאלה ${currentQ + 1} מתוך ${gameQuestions.length}`;
   document.getElementById('score-display').textContent = `⭐ ${p.score}`;
 
   // Progress
   document.getElementById('progress-fill').style.width =
-    `${(currentQ / questions.length) * 100}%`;
+    `${(currentQ / gameQuestions.length) * 100}%`;
 
   // Category & question
   document.getElementById('category-badge').textContent = q.category;
@@ -1119,11 +1399,11 @@ function updateTimerDisplay() {
   fill.style.width = pct + '%';
   num.textContent  = timeLeft;
 
-  // Color coding
-  if (timeLeft > 12) {
+  // Color coding (relative to chosen timer duration)
+  if (timeLeft > TIMER_SECONDS * 0.6) {
     fill.style.background = 'var(--success)';
     num.className = 'timer-num';
-  } else if (timeLeft > 6) {
+  } else if (timeLeft > TIMER_SECONDS * 0.3) {
     fill.style.background = 'var(--warn)';
     num.className = 'timer-num warn';
   } else {
@@ -1141,12 +1421,12 @@ function timeExpired() {
 
   const allBtns = document.querySelectorAll('.option-btn');
   allBtns.forEach(b => b.disabled = true);
-  allBtns[questions[currentQ].correct].classList.add('reveal');
+  allBtns[gameQuestions[currentQ].correct].classList.add('reveal');
 
   const fb = document.getElementById('feedback');
   document.getElementById('feedback-icon').textContent = '⏰';
   document.getElementById('feedback-text').textContent =
-    `הזמן נגמר! ${questions[currentQ].explanation}`;
+    `הזמן נגמר! ${gameQuestions[currentQ].explanation}`;
   fb.className = 'feedback wrong-fb show';
 
   showNextBtn();
@@ -1160,7 +1440,7 @@ function selectAnswer(index, btn) {
   answered = true;
   clearTimer();
 
-  const q       = questions[currentQ];
+  const q       = gameQuestions[currentQ];
   const p       = players[currentPlayerIdx];
   const allBtns = document.querySelectorAll('.option-btn');
   allBtns.forEach(b => b.disabled = true);
@@ -1193,7 +1473,7 @@ function showNextBtn() {
   const nextBtn = document.getElementById('btn-next');
   nextBtn.classList.add('show');
   nextBtn.textContent =
-    currentQ < questions.length - 1 ? 'הבא ➜' : '🏁 לתוצאות!';
+    currentQ < gameQuestions.length - 1 ? 'הבא ➜' : '🏁 לתוצאות!';
 }
 
 /* ═══════════════════════════════════════
@@ -1201,7 +1481,7 @@ function showNextBtn() {
 ═══════════════════════════════════════ */
 function nextQuestion() {
   currentQ++;
-  if (currentQ >= questions.length) {
+  if (currentQ >= gameQuestions.length) {
     showLeaderboard();
   } else {
     currentPlayerIdx = (currentPlayerIdx + 1) % players.length;
@@ -1276,7 +1556,7 @@ function showLeaderboard() {
   list.innerHTML = '';
 
   sorted.forEach((p, rank) => {
-    const pct = Math.round((p.correct / questions.length) * 100);
+    const pct = Math.round((p.correct / gameQuestions.length) * 100);
     const row = document.createElement('div');
     row.className = `lb-row ${CLASSES[rank] || ''}`;
     row.style.animationDelay = `${rank * 0.08}s`;
@@ -1284,7 +1564,7 @@ function showLeaderboard() {
       <div class="lb-rank">${rank < 3 ? MEDALS[rank] : rank + 1}</div>
       <div class="lb-info">
         <div class="lb-name">${PLAYER_EMOJIS[p.origIdx]} ${p.name}</div>
-        <div class="lb-detail">✅ ${p.correct}/${questions.length} נכון &nbsp;|&nbsp; ⏰ ${p.timeouts} פג זמן</div>
+        <div class="lb-detail">✅ ${p.correct}/${gameQuestions.length} נכון &nbsp;|&nbsp; ⏰ ${p.timeouts} פג זמן</div>
         <div class="lb-bar-wrap">
           <div class="lb-bar" style="width:0%" data-w="${(p.score/maxS*100).toFixed(1)}%"></div>
         </div>
@@ -1319,6 +1599,7 @@ function showLeaderboard() {
    PLAY AGAIN
 ═══════════════════════════════════════ */
 function playAgain() {
+  gameQuestions = shuffle(questions).slice(0, numQuestions);
   players.forEach(p => { p.score = 0; p.correct = 0; p.wrong = 0; p.timeouts = 0; });
   currentPlayerIdx = 0;
   currentQ = 0;
